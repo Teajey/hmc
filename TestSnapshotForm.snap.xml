@@ -1,0 +1,8 @@
+<Form Method="POST">
+  <content>
+    <Input Label="Username" Name="username" Value="" Required="true"></Input>
+    <Input Label="Password" Name="password" Type="password" Value="" Required="true"></Input>
+    <A Href="/register">Register</A>
+    <Submit>Login</Submit>
+  </content>
+</Form>

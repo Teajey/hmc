@@ -1,0 +1,56 @@
+{{define "input_attrs" -}}
+
+{{if .Type}}type="{{.Type}}" {{end -}}
+name="{{- .Name -}}" value="{{.Value}}"
+{{- if .Required}} required {{- end -}}
+{{- if .MinLength}} minlength="{{.MinLength}}" {{- end -}}
+{{- if .MaxLength}} maxlength="{{.MaxLength}}" {{- end -}}
+{{- if .Max}} max="{{.Max}}" {{- end -}}
+{{- if .Min}} min="{{.Min}}" {{- end -}}
+{{- if .Step}} step="{{.Step}}" {{- end -}}
+{{- if .Error}} aria-invalid="true" aria-errormessage="{{.Name}}Error"{{- end -}}
+
+{{- end}}
+
+{{define "select_attrs" -}}
+
+name="{{- .Name -}}"
+{{- if .Required}} required {{- end -}}
+{{- if .Multiple}} multiple {{- end -}}
+{{- if .Error}} aria-invalid="true" aria-errormessage="{{.Name}}Error"{{- end -}}
+
+{{- end}}
+
+{{define "input_inner" -}}
+
+{{if eq .Options nil -}}
+  <input {{template "input_attrs" . -}}>
+{{- else -}}
+  <select {{template "select_attrs" . -}}>
+{{- range .Options}}
+    <option {{if .Label -}} value="{{.Value}}" {{- end -}} {{- if .Selected}} selected {{- end}}>
+      {{- or .Label .Value -}}
+    </option>
+{{- end}}
+  </select>
+{{- end -}}
+
+{{- end}}
+
+{{define "input" -}}
+
+{{if .Label -}}
+<label>
+  {{.Label}}
+  {{template "input_inner" .}}
+</label>
+{{else -}}
+  {{- template "input_inner" . -}}
+{{- end -}}
+{{with .Error -}}
+<div id="{{- $.Name -}}Error">
+  {{.}}
+</div>
+{{- end}}
+
+{{- end}}

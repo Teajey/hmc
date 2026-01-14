@@ -1,0 +1,22 @@
+{
+  "Label": "Mug size",
+  "Type": "text",
+  "Name": "mugs",
+  "Required": true,
+  "Value": "Wumbo",
+  "Error": "\"Wumbo\" is not an option",
+  "Options": [
+    {
+      "Value": "lg",
+      "Label": "Large"
+    },
+    {
+      "Value": "md",
+      "Label": "Medium"
+    },
+    {
+      "Value": "sm",
+      "Label": "Small"
+    }
+  ]
+}

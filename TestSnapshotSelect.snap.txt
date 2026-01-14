@@ -1,0 +1,11 @@
+<label>
+  Mug size
+  <select name="mugs" required aria-invalid="true" aria-errormessage="mugsError">
+    <option value="lg">Large</option>
+    <option value="md">Medium</option>
+    <option value="sm">Small</option>
+  </select>
+</label>
+<div id="mugsError">
+  &#34;Wumbo&#34; is not an option
+</div>

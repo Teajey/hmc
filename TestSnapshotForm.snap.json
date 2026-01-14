@@ -1,0 +1,25 @@
+{
+  "Method": "POST",
+  "Elements": {
+    "Username": {
+      "Label": "Username",
+      "Name": "username",
+      "Required": true,
+      "Value": ""
+    },
+    "Password": {
+      "Label": "Password",
+      "Type": "password",
+      "Name": "password",
+      "Required": true,
+      "Value": ""
+    },
+    "RegisterLink": {
+      "Href": "/register",
+      "Name": "Register"
+    },
+    "Submit": {
+      "Label": "Login"
+    }
+  }
+}
