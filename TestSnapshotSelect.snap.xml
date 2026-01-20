@@ -1,9 +1,6 @@
 <Select Label="Mug size" Name="mugs" Required="true">
-  <Error>&#34;Wumbo&#34; is not an option</Error>
-  <Options>
-    <Option Selected="" Disabled="" Value="Wumbo">&#34;Wumbo&#34; is not an option</Option>
-    <Option Value="lg">Large</Option>
-    <Option Value="md">Medium</Option>
-    <Option Value="sm">Small</Option>
-  </Options>
+  <Option Selected="">Wumbo</Option>
+  <Option Value="lg">Large</Option>
+  <Option Value="md">Medium</Option>
+  <Option Value="sm">Small</Option>
 </Select>

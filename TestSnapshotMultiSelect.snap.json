@@ -5,6 +5,10 @@
   "Multiple": true,
   "Options": [
     {
+      "Value": "mouse",
+      "Selected": true
+    },
+    {
       "Value": "dog",
       "Label": "Dog",
       "Selected": true

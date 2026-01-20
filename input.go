@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
-	"slices"
 )
 
 type Option struct {
@@ -94,9 +93,6 @@ func (i *Input) Values() []string {
 //
 // It also sets p.Options[].Selected when Options are present.
 func (p *Input) SetValues(values ...string) {
-	for i, o := range p.Options {
-		p.Options[i].Selected = slices.Contains(values, o.Value)
-	}
 	length := len(values)
 	switch {
 	case length > 1:
@@ -108,6 +104,26 @@ func (p *Input) SetValues(values ...string) {
 	default:
 		p.Value = ""
 		p.extraValues = nil
+	}
+
+	if !p.IsSelect() {
+		return
+	}
+
+	for _, v := range values {
+		found := false
+		for i, o := range p.Options {
+			if o.Value == v {
+				p.Options[i].Selected = true
+				found = true
+			}
+		}
+		if !found {
+			p.Options = append([]Option{{
+				Value:    v,
+				Selected: true,
+			}}, p.Options...)
+		}
 	}
 }
 
@@ -197,32 +213,9 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 // [Input.Required], [Input.MaxLength], and [Input.MinLength] are checked. Similar to the minimal
 // checks that a browser would make for equivalent HTML.
 //
-// If there are Options, a check is made that each value is a valid option.
-//
 // This functionality can be extended with more bespoke validation by
 // checking fields and setting the [Input.Error] field accordingly.
 func (p *Input) Validate() {
-	if len(p.Options) > 0 {
-		for _, v := range p.Values() {
-			found := false
-			for _, o := range p.Options {
-				if o.Value == v {
-					found = true
-				}
-			}
-			if !found {
-				error := fmt.Sprintf("%#v is not an option", v)
-				p.Options = append([]Option{{
-					Value:    v,
-					Label:    error,
-					Selected: true,
-					Disabled: true,
-				}}, p.Options...)
-				p.Error = error
-			}
-		}
-	}
-
 	if p.Required && p.Value == "" {
 		p.Error = fmt.Sprintf("%#v is required", p.Name)
 	}

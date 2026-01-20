@@ -4,13 +4,10 @@
   "Name": "mugs",
   "Required": true,
   "Value": "Wumbo",
-  "Error": "\"Wumbo\" is not an option",
   "Options": [
     {
       "Value": "Wumbo",
-      "Label": "\"Wumbo\" is not an option",
-      "Selected": true,
-      "Disabled": true
+      "Selected": true
     },
     {
       "Value": "lg",

@@ -28,7 +28,7 @@ name="{{- .Name -}}"
 {{- else -}}
   <select {{template "select_attrs" . -}}>
 {{- range .Options}}
-    <option {{if .Label -}} value="{{.Value}}" {{- end -}} {{- if .Selected}} selected {{- end}} {{- if .Disabled}} disabled {{- end}}>
+    <option {{- if .Label}} value="{{.Value}}" {{- end -}} {{- if .Selected}} selected {{- end}} {{- if .Disabled}} disabled {{- end}}>
       {{- or .Label .Value -}}
     </option>
 {{- end}}

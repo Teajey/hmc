@@ -88,13 +88,13 @@ func TestSnapshotSelect(t *testing.T) {
 		Type:     "text",
 		Name:     "mugs",
 		Required: true,
-		Value:    "Wumbo",
 		Options: []hyprctl.Option{
 			{Label: "Large", Value: "lg"},
 			{Label: "Medium", Value: "md"},
 			{Label: "Small", Value: "sm"},
 		},
 	}
+	input.SetValues("Wumbo")
 	input.Validate()
 
 	buf := bytes.NewBuffer([]byte{})
@@ -122,7 +122,7 @@ func TestSnapshotMultiSelect(t *testing.T) {
 		},
 	}
 
-	input.SetValues("dog", "cat")
+	input.SetValues("dog", "cat", "mouse")
 	input.Validate()
 
 	buf := bytes.NewBuffer([]byte{})
