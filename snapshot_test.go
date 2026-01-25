@@ -4,11 +4,19 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"net/url"
 	"testing"
 
 	"github.com/Teajey/hyprctl"
 	"github.com/Teajey/hyprctl/internal/assert"
 )
+
+var tm *template.Template
+
+func TestMain(m *testing.M) {
+	tm = template.Must(template.New("").ParseFiles("./examples/templates/input.gotmpl"))
+	m.Run()
+}
 
 type content struct {
 	Username     hyprctl.Input
@@ -57,9 +65,6 @@ func TestSnapshotLink(t *testing.T) {
 }
 
 func TestSnapshotInput(t *testing.T) {
-	tm, err := template.ParseFiles("./examples/templates/input.gotmpl")
-	assert.FatalErr(t, "parsing template", err)
-
 	input := hyprctl.Input{
 		Label:     "Message",
 		Type:      "text",
@@ -71,7 +76,7 @@ func TestSnapshotInput(t *testing.T) {
 	}
 
 	buf := bytes.NewBuffer([]byte{})
-	err = tm.ExecuteTemplate(buf, "input", input)
+	err := tm.ExecuteTemplate(buf, "input", input)
 	assert.FatalErr(t, "executing template", err)
 
 	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
@@ -80,9 +85,6 @@ func TestSnapshotInput(t *testing.T) {
 }
 
 func TestSnapshotSelect(t *testing.T) {
-	tm, err := template.ParseFiles("./examples/templates/input.gotmpl")
-	assert.FatalErr(t, "parsing template", err)
-
 	input := hyprctl.Input{
 		Label:    "Mug size",
 		Type:     "text",
@@ -98,7 +100,7 @@ func TestSnapshotSelect(t *testing.T) {
 	input.Validate()
 
 	buf := bytes.NewBuffer([]byte{})
-	err = tm.ExecuteTemplate(buf, "input", input)
+	err := tm.ExecuteTemplate(buf, "input", input)
 	assert.FatalErr(t, "executing template", err)
 
 	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
@@ -107,9 +109,6 @@ func TestSnapshotSelect(t *testing.T) {
 }
 
 func TestSnapshotMultiSelect(t *testing.T) {
-	tm, err := template.ParseFiles("./examples/templates/input.gotmpl")
-	assert.FatalErr(t, "parsing template", err)
-
 	input := hyprctl.Input{
 		Label:    "Favourite animals",
 		Multiple: true,
@@ -126,10 +125,40 @@ func TestSnapshotMultiSelect(t *testing.T) {
 	input.Validate()
 
 	buf := bytes.NewBuffer([]byte{})
-	err = tm.ExecuteTemplate(buf, "input", input)
+	err := tm.ExecuteTemplate(buf, "input", input)
 	assert.FatalErr(t, "executing template", err)
 
 	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
 	assert.SnapshotXml(t, input)
 	assert.SnapshotJson(t, input)
+}
+
+func TestSnapshotMap(t *testing.T) {
+	input := hyprctl.Map{Name: "data"}
+	form := url.Values{
+		"tree":         {"oak"},
+		"data[food]":   {"icecream"},
+		"data[drinks]": {"water", "tea"},
+	}
+
+	input.ExtractFormValues(form)
+
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+	assert.Eq(t, "only unmatched entries are still in form", 1, len(form))
+}
+
+func TestSnapshotBucket(t *testing.T) {
+	input := hyprctl.Map{}
+	form := url.Values{
+		"tree":         {"oak"},
+		"data[food]":   {"icecream"},
+		"data[drinks]": {"water", "tea"},
+	}
+
+	input.ExtractFormValues(form)
+
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+	assert.Eq(t, "all entries are extracted by Map", 0, len(form))
 }

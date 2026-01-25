@@ -1,0 +1,12 @@
+{
+  "Name": "data",
+  "Entries": {
+    "data[drinks]": [
+      "water",
+      "tea"
+    ],
+    "data[food]": [
+      "icecream"
+    ]
+  }
+}

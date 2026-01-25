@@ -1,0 +1,15 @@
+{
+  "Name": "",
+  "Entries": {
+    "data[drinks]": [
+      "water",
+      "tea"
+    ],
+    "data[food]": [
+      "icecream"
+    ],
+    "tree": [
+      "oak"
+    ]
+  }
+}
