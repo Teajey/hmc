@@ -26,7 +26,7 @@ func (m *Map) ExtractFormValues(form url.Values) {
 }
 
 func (m Map) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name.Local = "Map"
+	start.Name.Local = "c:Map"
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Label"}, Value: m.Label})
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Name"}, Value: m.Name})
 
@@ -36,7 +36,7 @@ func (m Map) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 
 	for k, values := range m.Entries {
 		for _, v := range values {
-			keyElem := xml.StartElement{Name: xml.Name{Local: "Input"}}
+			keyElem := xml.StartElement{Name: xml.Name{Local: "c:Input"}}
 			keyElem.Attr = append(keyElem.Attr, xml.Attr{Name: xml.Name{Local: "Name"}, Value: k})
 			keyElem.Attr = append(keyElem.Attr, xml.Attr{Name: xml.Name{Local: "Value"}, Value: v})
 			if err := e.EncodeElement("", keyElem); err != nil {

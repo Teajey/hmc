@@ -1,20 +1,20 @@
-<myPage>
+<myPage xmlns:c="https://github.com/Teajey/hyprctl/blob/v0.3.0/README.md">
   <Title>Login to my thing</Title>
-  <Form Method="POST">
+  <c:Form Method="POST">
     <login>
-      <Input Label="Username" Name="username" Value="" Required="true"></Input>
-      <Input Label="Password" Name="password" Type="password" Value="" Required="true"></Input>
-      <Input Label="Confirm password" Name="confirmPassword" Type="password" Value="" Required="true"></Input>
-      <Select Label="Favourite food" Name="favFood">
-        <Option>fruit</Option>
-        <Option>vegetables</Option>
-        <Option>meat</Option>
-        <Option>fish</Option>
-        <Option>bugs</Option>
-      </Select>
-      <Map Label="Any other arbitrary information you wanna provide?" Name="misc"></Map>
-      <A Href="/register">Register</A>
-      <Submit>Login</Submit>
+      <c:Input Label="Username" Name="username" Value="" Required="true"></c:Input>
+      <c:Input Label="Password" Name="password" Type="password" Value="" Required="true"></c:Input>
+      <c:Input Label="Confirm password" Name="confirmPassword" Type="password" Value="" Required="true"></c:Input>
+      <c:Select Label="Favourite food" Name="favFood">
+        <c:Option>fruit</c:Option>
+        <c:Option>vegetables</c:Option>
+        <c:Option>meat</c:Option>
+        <c:Option>fish</c:Option>
+        <c:Option>bugs</c:Option>
+      </c:Select>
+      <c:Map Label="Any other arbitrary information you wanna provide?" Name="misc"></c:Map>
+      <c:Link Href="/register">Register</c:Link>
+      <c:Submit>Login</c:Submit>
     </login>
-  </Form>
+  </c:Form>
 </myPage>

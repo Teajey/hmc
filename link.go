@@ -10,7 +10,7 @@ type Link struct {
 }
 
 func (i Link) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name = xml.Name{Local: "A"}
+	start.Name = xml.Name{Local: "c:Link"}
 
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Href"}, Value: i.Href})
 

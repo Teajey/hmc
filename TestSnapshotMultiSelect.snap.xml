@@ -1,6 +1,6 @@
-<MultiSelect Label="Favourite animals" Name="fav_anim" Required="true">
-  <Option Selected="">mouse</Option>
-  <Option Selected="" Value="dog">Dog</Option>
-  <Option Selected="" Value="cat">Cat</Option>
-  <Option Value="gn_pig">Guinea pig</Option>
-</MultiSelect>
+<c:MultiSelect Label="Favourite animals" Name="fav_anim" Required="true">
+  <c:Option Selected="">mouse</c:Option>
+  <c:Option Selected="" Value="dog">Dog</c:Option>
+  <c:Option Selected="" Value="cat">Cat</c:Option>
+  <c:Option Value="gn_pig">Guinea pig</c:Option>
+</c:MultiSelect>

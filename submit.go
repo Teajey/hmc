@@ -14,7 +14,7 @@ type Submit struct {
 }
 
 func (i Submit) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name = xml.Name{Local: "Submit"}
+	start.Name = xml.Name{Local: "c:Submit"}
 
 	if i.Name != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Name"}, Value: i.Name})

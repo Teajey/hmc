@@ -19,6 +19,7 @@ func TestMain(m *testing.M) {
 }
 
 type myPage struct {
+	hyprctl.Namespace
 	Title string
 	Form  hyprctl.Form[login]
 }
@@ -35,7 +36,8 @@ type login struct {
 
 func TestSnapshotForm(t *testing.T) {
 	form := myPage{
-		Title: "Login to my thing",
+		Namespace: hyprctl.NewNamespace(),
+		Title:     "Login to my thing",
 		Form: hyprctl.Form[login]{
 			Method: "POST",
 			Elements: login{

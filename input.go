@@ -14,6 +14,7 @@ type Option struct {
 }
 
 func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	start.Name.Local = "c:Option"
 	if o.Selected && o.Value != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Selected"}})
 	}
@@ -131,12 +132,12 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	isSelect := i.IsSelect()
 	if isSelect {
 		if i.IsMultiSelect() {
-			start.Name = xml.Name{Local: "MultiSelect"}
+			start.Name = xml.Name{Local: "c:MultiSelect"}
 		} else {
-			start.Name = xml.Name{Local: "Select"}
+			start.Name = xml.Name{Local: "c:Select"}
 		}
 	} else {
-		start.Name = xml.Name{Local: "Input"}
+		start.Name = xml.Name{Local: "c:Input"}
 	}
 
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "Label"}, Value: i.Label})
@@ -171,18 +172,18 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	}
 
 	if i.Error != "" {
-		errorStart := xml.StartElement{Name: xml.Name{Local: "Error"}}
+		errorStart := xml.StartElement{Name: xml.Name{Local: "c:Error"}}
 		if err := e.EncodeElement(i.Error, errorStart); err != nil {
 			return err
 		}
 
 		if len(i.Options) > 0 {
-			optionsStart := xml.StartElement{Name: xml.Name{Local: "Options"}}
+			optionsStart := xml.StartElement{Name: xml.Name{Local: "c:Options"}}
 			if err := e.EncodeToken(optionsStart); err != nil {
 				return err
 			}
 			for _, o := range i.Options {
-				optionStart := xml.StartElement{Name: xml.Name{Local: "Option"}}
+				optionStart := xml.StartElement{Name: xml.Name{Local: "c:Option"}}
 				if err := e.EncodeElement(o, optionStart); err != nil {
 					return err
 				}
@@ -193,7 +194,7 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		}
 	} else {
 		for _, o := range i.Options {
-			optionStart := xml.StartElement{Name: xml.Name{Local: "Option"}}
+			optionStart := xml.StartElement{Name: xml.Name{Local: "c:Option"}}
 			if err := e.EncodeElement(o, optionStart); err != nil {
 				return err
 			}
