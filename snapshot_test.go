@@ -21,7 +21,7 @@ func TestMain(m *testing.M) {
 type myPage struct {
 	hyprctl.Namespace
 	Title string
-	Form  hyprctl.Form
+	Form  hyprctl.Form[login]
 }
 
 type login struct {
@@ -51,9 +51,9 @@ func TestSnapshotForm(t *testing.T) {
 	page := myPage{
 		Namespace: hyprctl.SetNamespace(),
 		Title:     "Login to my thing",
-		Form: hyprctl.Form{
+		Form: hyprctl.Form[login]{
 			Method: "POST",
-			FormElements: &login{
+			Elements: login{
 				Username: hyprctl.Input{
 					Label:    "Username",
 					Name:     "username",
@@ -101,8 +101,8 @@ func TestSnapshotForm(t *testing.T) {
 		"confirm_password": {"123456"},
 		"misc[iq]":         {"80"},
 	}
-	page.Form.ExtractValues(form)
-	page.Form.Validate()
+	page.Form.Elements.ExtractValues(form)
+	page.Form.Elements.Validate()
 
 	assert.SnapshotXml(t, page)
 	assert.SnapshotJson(t, page)
