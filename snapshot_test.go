@@ -49,7 +49,7 @@ func (l *login) Validate() {
 
 func TestSnapshotForm(t *testing.T) {
 	page := myPage{
-		Namespace: hyprctl.NewNamespace(),
+		Namespace: hyprctl.SetNamespace(),
 		Title:     "Login to my thing",
 		Form: hyprctl.Form{
 			Method: "POST",
