@@ -75,6 +75,7 @@ func TestSnapshotForm(t *testing.T) {
 					Label: "Favourite food",
 					Name:  "favFood",
 					Options: []hyprctl.Option{
+						{Selected: true},
 						{Value: "fruit"},
 						{Value: "vegetables"},
 						{Value: "meat"},
@@ -99,6 +100,7 @@ func TestSnapshotForm(t *testing.T) {
 		"username":         {"john", "blane"},
 		"password":         {"123456"},
 		"confirm_password": {"123456"},
+		"favFood":          {"bugs"},
 		"misc[iq]":         {"80"},
 	}
 	page.Form.Elements.ExtractValues(form)

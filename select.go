@@ -39,6 +39,9 @@ type Select struct {
 }
 
 func (s *Select) SetValues(values ...string) {
+	for i := range s.Options {
+		s.Options[i].Selected = false
+	}
 	for _, v := range values {
 		found := false
 		for i, o := range s.Options {

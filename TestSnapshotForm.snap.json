@@ -30,6 +30,9 @@
         "required": true,
         "options": [
           {
+            "Value": ""
+          },
+          {
             "Value": "fruit"
           },
           {
@@ -43,7 +46,8 @@
           },
           {
             "Label": "Bugs",
-            "Value": "bugs"
+            "Value": "bugs",
+            "Selected": true
           }
         ]
       },

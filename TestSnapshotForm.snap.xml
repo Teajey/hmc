@@ -8,11 +8,12 @@
         <c:Error>&#34;confirmPassword&#34; is required</c:Error>
       </c:Input>
       <c:Select label="Favourite food" name="favFood" required="true">
+        <c:Option></c:Option>
         <c:Option>fruit</c:Option>
         <c:Option>vegetables</c:Option>
         <c:Option>meat</c:Option>
         <c:Option>fish</c:Option>
-        <c:Option value="bugs">Bugs</c:Option>
+        <c:Option selected="" value="bugs">Bugs</c:Option>
       </c:Select>
       <c:Map label="Any other arbitrary information you wanna provide?" name="misc">
         <c:Input name="misc[iq]" value="80"></c:Input>
