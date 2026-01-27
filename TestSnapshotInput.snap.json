@@ -4,6 +4,6 @@
   "name": "msg",
   "required": true,
   "value": "Hey...",
-  "minlength": 3,
-  "error": "This is a bad message"
+  "error": "This is a bad message",
+  "minlength": 3
 }

@@ -8,12 +8,12 @@ type inputJson struct {
 	Name      string  `json:"name"`
 	Required  bool    `json:"required,omitempty"`
 	Value     string  `json:"value"`
+	Error     string  `json:"error,omitempty"`
 	MinLength uint    `json:"minlength,omitempty"`
 	MaxLength uint    `json:"maxlength,omitempty"`
 	Step      float32 `json:"step,omitempty"`
 	Min       string  `json:"min,omitempty"`
 	Max       string  `json:"max,omitempty"`
-	Error     string  `json:"error,omitempty"`
 }
 
 func (i Input) MarshalJSON() ([]byte, error) {

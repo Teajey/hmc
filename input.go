@@ -22,12 +22,12 @@ type Input struct {
 	Name      string
 	Required  bool
 	Value     string
+	Error     string
 	MinLength uint
 	MaxLength uint
 	Step      float32
 	Min       string
 	Max       string
-	Error     string
 }
 
 func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
