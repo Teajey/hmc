@@ -1,4 +1,5 @@
-<myPage xmlns:c="https://github.com/Teajey/hyprctl/blob/v0.4.0/README.md">
+<myPage xmlns:c="https://github.com/Teajey/hyprctl">
+  <!--See documentation for this version of hyprctl at https://github.com/Teajey/hyprctl/blob/(devel)/README.md-->
   <Title>Login to my thing</Title>
   <c:Form method="POST">
     <login>
