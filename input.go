@@ -2,6 +2,7 @@ package hyprctl
 
 import (
 	"cmp"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"net/url"
@@ -28,6 +29,14 @@ type Input struct {
 	Step      float32
 	Min       string
 	Max       string
+}
+
+func (i Input) MarshalJSON() ([]byte, error) {
+	j := inputJson(i)
+	if j.Type == "password" && j.Value != "" {
+		j.Value = "********"
+	}
+	return json.Marshal(j)
 }
 
 func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {

@@ -1,7 +1,5 @@
 package hyprctl
 
-import "encoding/json"
-
 type inputJson struct {
 	Label     string  `json:"label"`
 	Type      string  `json:"type,omitempty"`
@@ -14,12 +12,4 @@ type inputJson struct {
 	Step      float32 `json:"step,omitempty"`
 	Min       string  `json:"min,omitempty"`
 	Max       string  `json:"max,omitempty"`
-}
-
-func (i Input) MarshalJSON() ([]byte, error) {
-	j := inputJson(i)
-	if j.Type == "password" && j.Value != "" {
-		j.Value = "********"
-	}
-	return json.Marshal(j)
 }
