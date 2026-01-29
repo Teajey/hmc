@@ -4,20 +4,20 @@
   "required": true,
   "options": [
     {
-      "Value": "Wumbo",
-      "Selected": true
+      "value": "Wumbo",
+      "selected": true
     },
     {
-      "Label": "Large",
-      "Value": "lg"
+      "label": "Large",
+      "value": "lg"
     },
     {
-      "Label": "Medium",
-      "Value": "md"
+      "label": "Medium",
+      "value": "md"
     },
     {
-      "Label": "Small",
-      "Value": "sm"
+      "label": "Small",
+      "value": "sm"
     }
   ]
 }

@@ -30,24 +30,24 @@
         "required": true,
         "options": [
           {
-            "Value": ""
+            "value": ""
           },
           {
-            "Value": "fruit"
+            "value": "fruit"
           },
           {
-            "Value": "vegetables"
+            "value": "vegetables"
           },
           {
-            "Value": "meat"
+            "value": "meat"
           },
           {
-            "Value": "fish"
+            "value": "fish"
           },
           {
-            "Label": "Bugs",
-            "Value": "bugs",
-            "Selected": true
+            "label": "Bugs",
+            "value": "bugs",
+            "selected": true
           }
         ]
       },
