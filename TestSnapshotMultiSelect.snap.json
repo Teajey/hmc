@@ -5,22 +5,22 @@
   "required": true,
   "options": [
     {
-      "Value": "mouse",
-      "Selected": true
+      "value": "mouse",
+      "selected": true
     },
     {
-      "Label": "Dog",
-      "Value": "dog",
-      "Selected": true
+      "label": "Dog",
+      "value": "dog",
+      "selected": true
     },
     {
-      "Label": "Cat",
-      "Value": "cat",
-      "Selected": true
+      "label": "Cat",
+      "value": "cat",
+      "selected": true
     },
     {
-      "Label": "Guinea pig",
-      "Value": "gn_pig"
+      "label": "Guinea pig",
+      "value": "gn_pig"
     }
   ]
 }

@@ -8,10 +8,10 @@ import (
 )
 
 type Option struct {
-	Label    string `json:",omitempty"`
-	Value    string
-	Selected bool `json:",omitempty"`
-	Disabled bool `json:",omitempty"`
+	Label    string `json:"label,omitempty"`
+	Value    string `json:"value"`
+	Selected bool   `json:"selected,omitempty"`
+	Disabled bool   `json:"disabled,omitempty"`
 }
 
 func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
