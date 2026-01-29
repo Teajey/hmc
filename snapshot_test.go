@@ -89,8 +89,8 @@ func TestSnapshotForm(t *testing.T) {
 					Name:  "misc",
 				},
 				Login: hyprctl.Link{
-					Name: "Register",
-					Href: "/register",
+					Label: "Register",
+					Href:  "/register",
 				},
 			},
 		},
@@ -113,8 +113,8 @@ func TestSnapshotForm(t *testing.T) {
 
 func TestSnapshotLink(t *testing.T) {
 	link := hyprctl.Link{
-		Name: "Register",
-		Href: "/register",
+		Label: "Register",
+		Href:  "/register",
 	}
 
 	assert.SnapshotXml(t, link)

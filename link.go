@@ -5,8 +5,8 @@ import "encoding/xml"
 // Link represents a state transition that requires no input—a simple
 // navigation or action trigger.
 type Link struct {
-	Href string `json:"href"`
-	Name string `json:"name"`
+	Label string `json:"label"`
+	Href  string `json:"href"`
 }
 
 func (i Link) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -18,7 +18,7 @@ func (i Link) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return err
 	}
 
-	if err := e.EncodeToken(xml.CharData(i.Name)); err != nil {
+	if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
 		return err
 	}
 
