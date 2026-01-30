@@ -98,12 +98,14 @@ func (p *Input) Validate() {
 		p.Error = fmt.Sprintf("%#v is required", p.Name)
 	}
 
-	if p.Max != "" && cmp.Less(p.Max, p.Value) {
-		p.Error = fmt.Sprintf("%#v must be less than %#v", p.Value, p.Max)
-	}
+	if p.Value != "" {
+		if p.Max != "" && cmp.Less(p.Max, p.Value) {
+			p.Error = fmt.Sprintf("%#v must be less than %#v", p.Value, p.Max)
+		}
 
-	if p.Min != "" && cmp.Less(p.Value, p.Min) {
-		p.Error = fmt.Sprintf("%#v must be greater than %#v", p.Value, p.Max)
+		if p.Min != "" && cmp.Less(p.Value, p.Min) {
+			p.Error = fmt.Sprintf("%#v must be greater than %#v", p.Value, p.Min)
+		}
 	}
 
 	valueLen := len(p.Value)
