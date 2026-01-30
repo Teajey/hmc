@@ -10,7 +10,7 @@ import (
 
 type Map struct {
 	Label   string              `json:"-"`
-	Name    string              `json:"name"`
+	Name    string              `json:"-"`
 	Error   string              `json:"error"`
 	Entries map[string][]string `json:"entries"`
 }

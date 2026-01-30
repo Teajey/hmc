@@ -3,7 +3,7 @@ package hmc
 type inputJson struct {
 	Label     string  `json:"-"`
 	Type      string  `json:"-"`
-	Name      string  `json:"name"`
+	Name      string  `json:"-"`
 	Error     string  `json:"error"`
 	Required  bool    `json:"-"`
 	Value     string  `json:"value"`
