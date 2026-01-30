@@ -1,4 +1,4 @@
-package hyprctl
+package hmc
 
 type inputJson struct {
 	Label     string  `json:"label"`

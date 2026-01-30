@@ -1,4 +1,4 @@
-package hyprctl
+package hmc
 
 import "encoding/xml"
 

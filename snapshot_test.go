@@ -1,4 +1,4 @@
-package hyprctl_test
+package hmc_test
 
 import (
 	"bytes"
@@ -7,8 +7,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/Teajey/hyprctl"
-	"github.com/Teajey/hyprctl/internal/assert"
+	"github.com/Teajey/hmc"
+	"github.com/Teajey/hmc/internal/assert"
 )
 
 var tm *template.Template
@@ -19,18 +19,18 @@ func TestMain(m *testing.M) {
 }
 
 type myPage struct {
-	hyprctl.Namespace
+	hmc.Namespace
 	Title string
-	Form  hyprctl.Form[login]
+	Form  hmc.Form[login]
 }
 
 type login struct {
-	Username        hyprctl.Input
-	Password        hyprctl.Input
-	ConfirmPassword hyprctl.Input
-	FavouriteFood   hyprctl.Select
-	Misc            hyprctl.Map
-	Login           hyprctl.Link
+	Username        hmc.Input
+	Password        hmc.Input
+	ConfirmPassword hmc.Input
+	FavouriteFood   hmc.Select
+	Misc            hmc.Map
+	Login           hmc.Link
 }
 
 func (l *login) ExtractValues(form url.Values) {
@@ -49,32 +49,32 @@ func (l *login) Validate() {
 
 func TestSnapshotForm(t *testing.T) {
 	page := myPage{
-		Namespace: hyprctl.SetNamespace(),
+		Namespace: hmc.SetNamespace(),
 		Title:     "Login to my thing",
-		Form: hyprctl.Form[login]{
+		Form: hmc.Form[login]{
 			Method: "POST",
 			Elements: login{
-				Username: hyprctl.Input{
+				Username: hmc.Input{
 					Label:    "Username",
 					Name:     "username",
 					Required: true,
 				},
-				Password: hyprctl.Input{
+				Password: hmc.Input{
 					Label:    "Password",
 					Name:     "password",
 					Type:     "password",
 					Required: true,
 				},
-				ConfirmPassword: hyprctl.Input{
+				ConfirmPassword: hmc.Input{
 					Label:    "Confirm password",
 					Name:     "confirmPassword",
 					Type:     "password",
 					Required: true,
 				},
-				FavouriteFood: hyprctl.Select{
+				FavouriteFood: hmc.Select{
 					Label: "Favourite food",
 					Name:  "favFood",
-					Options: []hyprctl.Option{
+					Options: []hmc.Option{
 						{Selected: true},
 						{Value: "fruit"},
 						{Value: "vegetables"},
@@ -84,11 +84,11 @@ func TestSnapshotForm(t *testing.T) {
 					},
 					Required: true,
 				},
-				Misc: hyprctl.Map{
+				Misc: hmc.Map{
 					Label: "Any other arbitrary information you wanna provide?",
 					Name:  "misc",
 				},
-				Login: hyprctl.Link{
+				Login: hmc.Link{
 					Label: "Register",
 					Href:  "/register",
 				},
@@ -112,7 +112,7 @@ func TestSnapshotForm(t *testing.T) {
 }
 
 func TestSnapshotLink(t *testing.T) {
-	link := hyprctl.Link{
+	link := hmc.Link{
 		Label: "Register",
 		Href:  "/register",
 	}
@@ -122,7 +122,7 @@ func TestSnapshotLink(t *testing.T) {
 }
 
 func TestSnapshotInput(t *testing.T) {
-	input := hyprctl.Input{
+	input := hmc.Input{
 		Label:     "Message",
 		Type:      "text",
 		Name:      "msg",
@@ -142,11 +142,11 @@ func TestSnapshotInput(t *testing.T) {
 }
 
 func TestSnapshotSelect(t *testing.T) {
-	input := hyprctl.Select{
+	input := hmc.Select{
 		Label:    "Mug size",
 		Name:     "mugs",
 		Required: true,
-		Options: []hyprctl.Option{
+		Options: []hmc.Option{
 			{Label: "Large", Value: "lg"},
 			{Label: "Medium", Value: "md"},
 			{Label: "Small", Value: "sm"},
@@ -169,12 +169,12 @@ func TestSnapshotSelect(t *testing.T) {
 }
 
 func TestSnapshotMultiSelect(t *testing.T) {
-	input := hyprctl.Select{
+	input := hmc.Select{
 		Label:    "Favourite animals",
 		Multiple: true,
 		Name:     "fav_anim",
 		Required: true,
-		Options: []hyprctl.Option{
+		Options: []hmc.Option{
 			{Label: "Dog", Value: "dog"},
 			{Label: "Cat", Value: "cat"},
 			{Label: "Guinea pig", Value: "gn_pig"},
@@ -193,7 +193,7 @@ func TestSnapshotMultiSelect(t *testing.T) {
 }
 
 func TestSnapshotMap(t *testing.T) {
-	input := hyprctl.Map{Label: "Random data", Name: "data"}
+	input := hmc.Map{Label: "Random data", Name: "data"}
 	form := url.Values{
 		"tree":         {"oak"},
 		"data[food]":   {"icecream"},
@@ -213,7 +213,7 @@ func TestSnapshotMap(t *testing.T) {
 }
 
 func TestSnapshotBucket(t *testing.T) {
-	input := hyprctl.Map{Label: "Leftover data"}
+	input := hmc.Map{Label: "Leftover data"}
 	form := url.Values{
 		"tree":         {"oak"},
 		"data[food]":   {"icecream"},

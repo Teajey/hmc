@@ -1,4 +1,4 @@
-// Package hyprctl provides types for building HATEOAS-driven REST APIs with
+// Package hmc provides types for building HATEOAS-driven REST APIs with
 // progressive enhancement.
 //
 // Each type represents a hypermedia control—a semantic element that guides
@@ -12,7 +12,7 @@
 // with the controls needed to interact with it. This library provides the
 // building blocks for those controls.
 //
-// The types in hyprctl are deliberately minimal, focusing on the semantic
+// The types in hmc are deliberately minimal, focusing on the semantic
 // layer rather than presentation. They describe WHAT actions are available
 // and HOW to invoke them, not how they should be styled or rendered.
 //
@@ -33,12 +33,12 @@
 // Types are designed to be embedded in your domain structs:
 //
 //	type LoginPage struct {
-//	    LoginForm hyprctl.Form[struct {
-//	        Username hyprctl.Input
-//	        Password hyprctl.Input
-//	        Submit   hyprctl.Submit
+//	    LoginForm hmc.Form[struct {
+//	        Username hmc.Input
+//	        Password hmc.Input
+//	        Submit   hmc.Submit
 //	    }]
-//	    RegisterLink hyprctl.Link
+//	    RegisterLink hmc.Link
 //	}
 //
 // Marshal to JSON for API clients, XML for CLI tools, or wrap in HTML
@@ -61,4 +61,4 @@
 // This is not a client-side form library—it's server-side semantics.
 // This is not a validation framework—it provides minimal checks and extension
 // points for your domain rules.
-package hyprctl
+package hmc

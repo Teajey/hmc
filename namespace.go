@@ -1,4 +1,4 @@
-package hyprctl
+package hmc
 
 import (
 	"encoding/xml"
@@ -15,7 +15,7 @@ type Namespace struct {
 
 var docs xml.Comment
 
-const repo string = "github.com/Teajey/hyprctl"
+const repo string = "github.com/Teajey/hmc"
 
 func init() {
 	docs = xml.Comment(fmt.Sprintf("See an overview of what this XML means at https://%s/blob/main/README.md ", repo))
@@ -24,7 +24,7 @@ func init() {
 // SetNamespace provides a default setting for the Namespace struct.
 func SetNamespace() Namespace {
 	return Namespace{
-		HcXmlns: "https://github.com/Teajey/hyprctl",
+		HcXmlns: "https://github.com/Teajey/hmc",
 		Docs:    docs,
 	}
 }

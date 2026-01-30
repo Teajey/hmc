@@ -1,3 +1,3 @@
-module github.com/Teajey/hyprctl
+module github.com/Teajey/hmc
 
 go 1.25.5

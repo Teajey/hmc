@@ -1,5 +1,5 @@
-<myPage xmlns:c="https://github.com/Teajey/hyprctl">
-  <!--See an overview of what this XML means at https://github.com/Teajey/hyprctl/blob/main/README.md -->
+<myPage xmlns:c="https://github.com/Teajey/hmc">
+  <!--See an overview of what this XML means at https://github.com/Teajey/hmc/blob/main/README.md -->
   <Title>Login to my thing</Title>
   <c:Form method="POST">
     <login>
