@@ -3,6 +3,7 @@ package hmc
 import (
 	"cmp"
 	"encoding/xml"
+	"errors"
 	"iter"
 	"net/url"
 )
@@ -38,7 +39,11 @@ type Select struct {
 	Error    string   `json:"error,omitempty"`
 }
 
-func (s *Select) SetValues(values ...string) {
+var ErrSelectHasNonOption = errors.New("non-option values")
+
+// SetValues returns an error if a value is provided that is not listed
+// in s.Options; but this may be ignored.
+func (s *Select) SetValues(values ...string) (err error) {
 	for i := range s.Options {
 		s.Options[i].Selected = false
 	}
@@ -51,12 +56,14 @@ func (s *Select) SetValues(values ...string) {
 			}
 		}
 		if !found {
+			err = ErrSelectHasNonOption
 			s.Options = append([]Option{{
 				Value:    v,
 				Selected: true,
 			}}, s.Options...)
 		}
 	}
+	return
 }
 
 func (s Select) Values() iter.Seq[string] {
@@ -78,22 +85,27 @@ func (s Select) Value() string {
 	return val
 }
 
-func (s *Select) ExtractFormValue(form url.Values) {
+// ExtractFormValue behaves similarly to [Input.ExtractFormValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
+//
+// An error is returned if a value is extracted that is not listed
+// in s.Options; but this may be ignored.
+func (s *Select) ExtractFormValue(form url.Values) (err error) {
 	formValue, ok := form[s.Name]
 	if !ok {
 		return
 	}
 	if s.Multiple {
-		s.SetValues(formValue...)
+		err = s.SetValues(formValue...)
 		delete(form, s.Name)
 	} else {
-		s.SetValues(formValue[0])
+		err = s.SetValues(formValue[0])
 		if len(formValue[1:]) > 0 {
 			form[s.Name] = formValue[1:]
 		} else {
 			delete(form, s.Name)
 		}
 	}
+	return
 }
 
 func (i Select) MarshalXML(e *xml.Encoder, start xml.StartElement) error {

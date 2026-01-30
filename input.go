@@ -4,8 +4,10 @@ import (
 	"cmp"
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // Input describes a piece of data the server needs from the client,
@@ -85,6 +87,12 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeToken(start.End())
 }
 
+var ErrInputRequired = errors.New("value is required")
+var ErrInputMax = errors.New("value is too great")
+var ErrInputMin = errors.New("value is too little")
+var ErrInputMaxLength = errors.New("value is too long")
+var ErrInputMinLength = errors.New("value is too short")
+
 // Validate performs some basic checks on the value
 // of the input according to its settings.
 //
@@ -93,33 +101,34 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 //
 // This functionality can be extended with more bespoke validation by
 // checking fields and setting the [Input.Error] field accordingly.
-func (p *Input) Validate() {
+func (p *Input) Validate() (err error) {
 	if p.Required && p.Value == "" {
-		p.Error = fmt.Sprintf("%#v is required", p.Name)
+		err = ErrInputRequired
 	}
 
 	if p.Value != "" {
 		if p.Max != "" && cmp.Less(p.Max, p.Value) {
-			p.Error = fmt.Sprintf("%#v must be less than %#v", p.Value, p.Max)
+			err = ErrInputMax
 		}
 
 		if p.Min != "" && cmp.Less(p.Value, p.Min) {
-			p.Error = fmt.Sprintf("%#v must be greater than %#v", p.Value, p.Min)
+			err = ErrInputMin
 		}
 	}
 
 	valueLen := len(p.Value)
 	if p.MinLength > 0 && int(p.MinLength) > valueLen {
-		p.Error = fmt.Sprintf("%#v requires at least %#v characters (currently %#v characters)", p.Name, p.MinLength, valueLen)
+		err = ErrInputMinLength
 	}
 
 	if p.MaxLength > 0 && int(p.MaxLength) < valueLen {
-		p.Error = fmt.Sprintf("%#v supports at most %#v characters (currently %#v characters)", p.Name, p.MaxLength, valueLen)
+		err = ErrInputMaxLength
 	}
+
+	return
 }
 
-// ValueFromUrlValues will searching for the Input's value under
-// p.Name, setting p.Value.
+// ExtractFormValue sets i.Value to the first value found at form[i.Name].
 //
 // The found value is deleted from form.
 func (i *Input) ExtractFormValue(form url.Values) {
@@ -132,4 +141,32 @@ func (i *Input) ExtractFormValue(form url.Values) {
 			delete(form, i.Name)
 		}
 	}
+}
+
+func (i *Input) ParseValueAsTime() (t time.Time, err error) {
+	if i.Value != "" {
+		t, err = time.Parse("15:04:05.999999999", i.Value)
+	}
+	return
+}
+
+func (i *Input) ParseValueAsDate() (t time.Time, err error) {
+	if i.Value != "" {
+		t, err = time.Parse(time.DateOnly, i.Value)
+	}
+	return
+}
+
+func (i *Input) ParseValueAsDatetime() (t time.Time, err error) {
+	if i.Value != "" {
+		t, err = time.Parse(time.RFC3339Nano, i.Value)
+	}
+	return
+}
+
+func (i *Input) ParseValueAsDatetimeLocal() (t time.Time, err error) {
+	if i.Value != "" {
+		t, err = time.Parse("2006-01-02T15:04:05.999999999", i.Value)
+	}
+	return
 }
