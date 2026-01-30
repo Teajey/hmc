@@ -1,55 +1,53 @@
 {
   "Title": "Login to my thing",
   "Form": {
-    "elements": {
-      "Username": {
-        "error": "",
-        "value": "john"
-      },
-      "Password": {
-        "error": "",
-        "value": "********"
-      },
-      "ConfirmPassword": {
-        "error": "InputRequired",
-        "value": ""
-      },
-      "FavouriteFood": {
-        "error": "",
-        "options": [
-          {
-            "value": ""
-          },
-          {
-            "value": "fruit"
-          },
-          {
-            "value": "vegetables"
-          },
-          {
-            "value": "meat"
-          },
-          {
-            "value": "fish"
-          },
-          {
-            "value": "bugs",
-            "selected": true
-          }
-        ]
-      },
-      "Misc": {
-        "error": "",
-        "entries": {
-          "iq": [
-            "80"
-          ]
+    "Username": {
+      "error": "",
+      "value": "john"
+    },
+    "Password": {
+      "error": "",
+      "value": "********"
+    },
+    "ConfirmPassword": {
+      "error": "InputRequired",
+      "value": ""
+    },
+    "FavouriteFood": {
+      "error": "",
+      "options": [
+        {
+          "value": ""
+        },
+        {
+          "value": "fruit"
+        },
+        {
+          "value": "vegetables"
+        },
+        {
+          "value": "meat"
+        },
+        {
+          "value": "fish"
+        },
+        {
+          "value": "bugs",
+          "selected": true
         }
-      },
-      "Login": {
-        "label": "Register",
-        "href": "/register"
+      ]
+    },
+    "Misc": {
+      "error": "",
+      "entries": {
+        "iq": [
+          "80"
+        ]
       }
+    },
+    "Login": {
+      "label": "Register",
+      "href": "/register"
     }
   }
 }

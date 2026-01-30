@@ -1,6 +1,7 @@
 package hmc
 
 import (
+	"encoding/json"
 	"encoding/xml"
 )
 
@@ -13,8 +14,8 @@ import (
 // which would usually be [Input], [Select], [Map], [Link], etc.
 // but might also be something like `Error string` or `Warning string` fields.
 type Form[T any] struct {
-	Method   string `json:"-"`
-	Elements T      `json:"elements"`
+	Method   string
+	Elements T
 }
 
 func (i Form[T]) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -35,4 +36,8 @@ func (i Form[T]) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	}
 
 	return e.EncodeToken(start.End())
+}
+
+func (i Form[T]) MarshalJSON() ([]byte, error) {
+	return json.Marshal(i.Elements)
 }
