@@ -13,7 +13,7 @@ import (
 // which would usually be [Input], [Select], [Map], [Link], etc.
 // but might also be something like `Error string` or `Warning string` fields.
 type Form[T any] struct {
-	Method   string `json:"method,omitempty"`
+	Method   string `json:"-"`
 	Elements T      `json:"elements"`
 }
 

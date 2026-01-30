@@ -9,7 +9,7 @@ import (
 )
 
 type Option struct {
-	Label    string `json:"label,omitempty"`
+	Label    string `json:"-"`
 	Value    string `json:"value"`
 	Selected bool   `json:"selected,omitempty"`
 	Disabled bool   `json:"disabled,omitempty"`
@@ -31,12 +31,12 @@ func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 type Select struct {
-	Multiple bool     `json:"multiple,omitempty"`
-	Label    string   `json:"label"`
+	Multiple bool     `json:"-"`
+	Label    string   `json:"-"`
 	Name     string   `json:"name"`
-	Required bool     `json:"required,omitempty"`
+	Error    string   `json:"error"`
+	Required bool     `json:"-"`
 	Options  []Option `json:"options"`
-	Error    string   `json:"error,omitempty"`
 }
 
 var ErrSelectHasNonOption = errors.New("non-option values")

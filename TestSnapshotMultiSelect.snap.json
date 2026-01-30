@@ -1,25 +1,20 @@
 {
-  "multiple": true,
-  "label": "Favourite animals",
   "name": "fav_anim",
-  "required": true,
+  "error": "",
   "options": [
     {
       "value": "mouse",
       "selected": true
     },
     {
-      "label": "Dog",
       "value": "dog",
       "selected": true
     },
     {
-      "label": "Cat",
       "value": "cat",
       "selected": true
     },
     {
-      "label": "Guinea pig",
       "value": "gn_pig"
     }
   ]
