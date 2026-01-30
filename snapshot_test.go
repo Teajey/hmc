@@ -37,14 +37,23 @@ func (l *login) ExtractValues(form url.Values) {
 	l.Username.ExtractFormValue(form)
 	l.Password.ExtractFormValue(form)
 	l.ConfirmPassword.ExtractFormValue(form)
-	l.FavouriteFood.ExtractFormValue(form)
+	_ = l.FavouriteFood.ExtractFormValue(form)
 	l.Misc.ExtractFormValue(form)
 }
 
 func (l *login) Validate() {
-	l.Username.Validate()
-	l.Password.Validate()
-	l.ConfirmPassword.Validate()
+	err := l.Username.Validate()
+	if err != nil {
+		l.Username.Error = err.Error()
+	}
+	err = l.Password.Validate()
+	if err != nil {
+		l.Password.Error = err.Error()
+	}
+	err = l.ConfirmPassword.Validate()
+	if err != nil {
+		l.ConfirmPassword.Error = err.Error()
+	}
 }
 
 func TestSnapshotForm(t *testing.T) {

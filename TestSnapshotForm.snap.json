@@ -22,7 +22,7 @@
         "name": "confirmPassword",
         "required": true,
         "value": "",
-        "error": "\"confirmPassword\" is required"
+        "error": "value is required"
       },
       "FavouriteFood": {
         "label": "Favourite food",
