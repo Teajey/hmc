@@ -14,7 +14,7 @@
       },
       "ConfirmPassword": {
         "name": "confirmPassword",
-        "error": "value is required",
+        "error": "InputRequired",
         "value": ""
       },
       "FavouriteFood": {

@@ -39,7 +39,7 @@ type Select struct {
 	Options  []Option `json:"options"`
 }
 
-var ErrSelectHasNonOption = errors.New("non-option values")
+var ErrSelectHasNonOption = errors.New("SelectHasNonOption")
 
 // SetValues returns an error if a value is provided that is not listed
 // in s.Options; but this may be ignored.

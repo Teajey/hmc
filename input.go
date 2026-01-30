@@ -87,11 +87,11 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeToken(start.End())
 }
 
-var ErrInputRequired = errors.New("value is required")
-var ErrInputMax = errors.New("value is too great")
-var ErrInputMin = errors.New("value is too little")
-var ErrInputMaxLength = errors.New("value is too long")
-var ErrInputMinLength = errors.New("value is too short")
+var ErrInputRequired = errors.New("InputRequired")
+var ErrInputMax = errors.New("InputMax")
+var ErrInputMin = errors.New("InputMin")
+var ErrInputMaxLength = errors.New("InputMaxLength")
+var ErrInputMinLength = errors.New("InputMinLength")
 
 // Validate performs some basic checks on the value
 // of the input according to its settings.
