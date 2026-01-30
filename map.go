@@ -9,10 +9,10 @@ import (
 )
 
 type Map struct {
-	Label   string              `json:"label"`
+	Label   string              `json:"-"`
 	Name    string              `json:"name"`
+	Error   string              `json:"error"`
 	Entries map[string][]string `json:"entries"`
-	Error   string              `json:"error,omitempty"`
 }
 
 func (m Map) NamedKey(key string) string {

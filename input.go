@@ -23,9 +23,9 @@ type Input struct {
 	Label     string
 	Type      string
 	Name      string
+	Error     string
 	Required  bool
 	Value     string
-	Error     string
 	MinLength uint
 	MaxLength uint
 	Step      float32

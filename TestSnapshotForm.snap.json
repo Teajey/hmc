@@ -1,33 +1,25 @@
 {
   "Title": "Login to my thing",
   "Form": {
-    "method": "POST",
     "elements": {
       "Username": {
-        "label": "Username",
         "name": "username",
-        "required": true,
+        "error": "",
         "value": "john"
       },
       "Password": {
-        "label": "Password",
-        "type": "password",
         "name": "password",
-        "required": true,
+        "error": "",
         "value": "********"
       },
       "ConfirmPassword": {
-        "label": "Confirm password",
-        "type": "password",
         "name": "confirmPassword",
-        "required": true,
-        "value": "",
-        "error": "value is required"
+        "error": "value is required",
+        "value": ""
       },
       "FavouriteFood": {
-        "label": "Favourite food",
         "name": "favFood",
-        "required": true,
+        "error": "",
         "options": [
           {
             "value": ""
@@ -45,15 +37,14 @@
             "value": "fish"
           },
           {
-            "label": "Bugs",
             "value": "bugs",
             "selected": true
           }
         ]
       },
       "Misc": {
-        "label": "Any other arbitrary information you wanna provide?",
         "name": "misc",
+        "error": "",
         "entries": {
           "iq": [
             "80"
