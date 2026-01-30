@@ -3,22 +3,18 @@
   "Form": {
     "elements": {
       "Username": {
-        "name": "username",
         "error": "",
         "value": "john"
       },
       "Password": {
-        "name": "password",
         "error": "",
         "value": "********"
       },
       "ConfirmPassword": {
-        "name": "confirmPassword",
         "error": "InputRequired",
         "value": ""
       },
       "FavouriteFood": {
-        "name": "favFood",
         "error": "",
         "options": [
           {
@@ -43,7 +39,6 @@
         ]
       },
       "Misc": {
-        "name": "misc",
         "error": "",
         "entries": {
           "iq": [

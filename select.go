@@ -33,7 +33,7 @@ func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 type Select struct {
 	Multiple bool     `json:"-"`
 	Label    string   `json:"-"`
-	Name     string   `json:"name"`
+	Name     string   `json:"-"`
 	Error    string   `json:"error"`
 	Required bool     `json:"-"`
 	Options  []Option `json:"options"`
