@@ -1,0 +1,86 @@
+[
+  {
+    "Type": "",
+    "Error": "value is required",
+    "Required": true,
+    "Value": ""
+  },
+  {
+    "Type": "",
+    "Error": "",
+    "Value": "",
+    "Min": "123"
+  },
+  {
+    "Type": "number",
+    "Error": "must be greater than 1000",
+    "Value": "123",
+    "Min": "1000"
+  },
+  {
+    "Type": "number",
+    "Error": "must be less than or equal to 123",
+    "Value": "1000",
+    "Max": "123"
+  },
+  {
+    "Type": "number",
+    "Error": "must be at most 3 char(s)",
+    "Value": "1234",
+    "MaxLength": 3
+  },
+  {
+    "Type": "number",
+    "Error": "",
+    "Value": "123",
+    "MaxLength": 3
+  },
+  {
+    "Type": "number",
+    "Error": "must be at least 5 char(s)",
+    "Value": "1234",
+    "MinLength": 5
+  },
+  {
+    "Type": "number",
+    "Error": "",
+    "Value": "12345",
+    "MinLength": 5
+  },
+  {
+    "Type": "",
+    "Error": "",
+    "Value": "def",
+    "Min": "abc"
+  },
+  {
+    "Type": "",
+    "Error": "must be less than or equal to abc",
+    "Value": "def",
+    "Max": "abc"
+  },
+  {
+    "Type": "",
+    "Error": "must be greater than def",
+    "Value": "abc",
+    "Min": "def"
+  },
+  {
+    "Type": "",
+    "Error": "",
+    "Value": "abc",
+    "Max": "def"
+  },
+  {
+    "Type": "",
+    "Error": "",
+    "Value": "abc",
+    "Min": "abc"
+  },
+  {
+    "Type": "",
+    "Error": "",
+    "Value": "abc",
+    "Max": "abc"
+  }
+]

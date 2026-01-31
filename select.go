@@ -50,7 +50,7 @@ func (s *Select) SetValues(values ...string) (err error) {
 	for _, v := range values {
 		found := false
 		for i, o := range s.Options {
-			if o.Value == v {
+			if o.Value == v && !o.Disabled {
 				s.Options[i].Selected = true
 				found = true
 			}
@@ -69,10 +69,11 @@ func (s *Select) SetValues(values ...string) (err error) {
 func (s Select) Values() iter.Seq[string] {
 	return iter.Seq[string](func(yield func(string) bool) {
 		for _, o := range s.Options {
-			if o.Selected {
-				if !yield(o.Value) {
-					return
-				}
+			if !o.Selected || o.Disabled {
+				continue
+			}
+			if !yield(o.Value) || !s.Multiple {
+				return
 			}
 		}
 	})

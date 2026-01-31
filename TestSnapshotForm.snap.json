@@ -10,7 +10,7 @@
       "value": "********"
     },
     "ConfirmPassword": {
-      "error": "\"confirmPassword\" is required",
+      "error": "value is required",
       "value": ""
     },
     "FavouriteFood": {
