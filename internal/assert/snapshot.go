@@ -40,13 +40,12 @@ func writeSnapshot(t *testing.T, path string, actual []byte) {
 }
 
 func Snapshot(t *testing.T, path string, actual []byte) {
+	actual = ensureSuffix(actual, newline)
 	if !pathExists(path) {
 		writeSnapshot(t, path, actual)
 		t.Errorf("Snapshot file created: %s", path)
 		return
 	}
-
-	actual = ensureSuffix(actual, newline)
 
 	expected, err := os.ReadFile(path)
 	if err != nil {
