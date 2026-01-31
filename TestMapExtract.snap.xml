@@ -1,0 +1,5 @@
+<c:Map label="" name="foo" maxlength="1">
+  <c:Error>contains an entry with more than 1 values(s)</c:Error>
+  <c:Input name="foo[bar]" value="two"></c:Input>
+  <c:Input name="foo[bar]" value="three"></c:Input>
+</c:Map>

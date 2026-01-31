@@ -1,0 +1,4 @@
+<c:Map label="" name="foo">
+  <c:Error>contains a key longer than 256 chars</c:Error>
+  <c:Input name="foo[barbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbaz]" value="two"></c:Input>
+</c:Map>
