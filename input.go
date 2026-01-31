@@ -4,7 +4,6 @@ import (
 	"cmp"
 	"encoding/json"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"net/url"
 	"time"
@@ -87,11 +86,49 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.EncodeToken(start.End())
 }
 
-var ErrInputRequired = errors.New("InputRequired")
-var ErrInputMax = errors.New("InputMax")
-var ErrInputMin = errors.New("InputMin")
-var ErrInputMaxLength = errors.New("InputMaxLength")
-var ErrInputMinLength = errors.New("InputMinLength")
+type ErrInputRequired struct {
+	Name string
+}
+
+func (e ErrInputRequired) Error() string {
+	return fmt.Sprintf("%#v is required", e.Name)
+}
+
+type ErrInputMax struct {
+	Name string
+	Max  string
+}
+
+func (e ErrInputMax) Error() string {
+	return fmt.Sprintf("%#v must be less than or equal to %#v", e.Name, e.Max)
+}
+
+type ErrInputMin struct {
+	Name string
+	Min  string
+}
+
+func (e ErrInputMin) Error() string {
+	return fmt.Sprintf("%#v must be greater than %#v", e.Name, e.Min)
+}
+
+type ErrInputMaxLength struct {
+	Name      string
+	MaxLength uint
+}
+
+func (e ErrInputMaxLength) Error() string {
+	return fmt.Sprintf("%#v must be shorter than %#v", e.Name, e.MaxLength)
+}
+
+type ErrInputMinLength struct {
+	Name      string
+	MinLength uint
+}
+
+func (e ErrInputMinLength) Error() string {
+	return fmt.Sprintf("%#v must be greater than %#v", e.Name, e.MinLength)
+}
 
 // Validate performs some basic checks on the value
 // of the input according to its settings.
@@ -103,26 +140,30 @@ var ErrInputMinLength = errors.New("InputMinLength")
 // checking fields and setting the [Input.Error] field accordingly.
 func (p *Input) Validate() (err error) {
 	if p.Required && p.Value == "" {
-		err = ErrInputRequired
+		err = ErrInputRequired{p.Name}
 	}
 
 	if p.Value != "" {
 		if p.Max != "" && cmp.Less(p.Max, p.Value) {
-			err = ErrInputMax
+			err = ErrInputMax{p.Name, p.Max}
 		}
 
 		if p.Min != "" && cmp.Less(p.Value, p.Min) {
-			err = ErrInputMin
+			err = ErrInputMin{p.Name, p.Min}
 		}
 	}
 
 	valueLen := len(p.Value)
 	if p.MinLength > 0 && int(p.MinLength) > valueLen {
-		err = ErrInputMinLength
+		err = ErrInputMinLength{p.Name, p.MinLength}
 	}
 
 	if p.MaxLength > 0 && int(p.MaxLength) < valueLen {
-		err = ErrInputMaxLength
+		err = ErrInputMaxLength{p.Name, p.MaxLength}
+	}
+
+	if err != nil {
+		p.Error = err.Error()
 	}
 
 	return
