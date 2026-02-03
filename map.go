@@ -17,19 +17,19 @@ type Map struct {
 	Label string `json:"-"`
 	Name  string `json:"-"`
 	Error string `json:"error"`
-	// MaxEntries sets the maximum number of entries allowed where Entries is set with a method.
+	// MaxEntries sets the maximum number of entries allowed when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
 	MaxEntries int `json:"-"`
-	// MaxKeyLength sets the maximum length that any given key may be where Entries is set with a method.
+	// MaxKeyLength sets the maximum length that any given key may be when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
 	MaxKeyLength int `json:"-"`
-	// MaxValues sets the maximum number of values allowed per entry where Entries is set with a method.
+	// MaxValues sets the maximum number of values allowed per entry when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
 	MaxValues int `json:"-"`
-	// MaxValueLength sets the maximum length any given value may be, in any given entry, where Entries is set with a method.
+	// MaxValueLength sets the maximum length any given value may be, in any given entry, when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
 	MaxValueLength int                 `json:"-"`
@@ -84,11 +84,12 @@ func (e ErrMapMaxValueLength) Error() string {
 
 // ExtractFormValue takes all entries from form with name x[y], where x = m.Name, and y is an arbitrary key provided by the request.
 //
-// An error will be returned if any of m.MaxEntries, m.MaxKeyLength, m.MaxValueLength, or m.MaxValues are violated.
-func (m *Map) ExtractFormValue(form url.Values) (err error) {
+// If m.Name == "", then all entries in form are transferred to m.Entries. Extract specific fields first to prevent them from being captured by the catch-all.
+func (m *Map) ExtractFormValue(form url.Values) {
 	if m.Entries == nil {
 		m.Entries = make(map[string][]string, len(form))
 	}
+
 	for k, v := range form {
 		var key string
 		if m.Name != "" {
@@ -103,7 +104,18 @@ func (m *Map) ExtractFormValue(form url.Values) (err error) {
 		} else {
 			key = k
 		}
-		if m.MaxKeyLength > 0 && len(key) > m.MaxKeyLength {
+		delete(form, k)
+		m.Entries[key] = v
+	}
+}
+
+// Validate performs some basic checks on m.Entries
+// according to given settings.
+//
+// An error will be returned, and m.Error set, if any of m.MaxEntries, m.MaxKeyLength, m.MaxValueLength, or m.MaxValues are violated.
+func (m *Map) Validate() (err error) {
+	for k, v := range m.Entries {
+		if m.MaxKeyLength > 0 && len(k) > m.MaxKeyLength {
 			err = ErrMapMaxKeyLength{m.MaxKeyLength}
 		}
 		if m.MaxValues > 0 && len(v) > m.MaxValues {
@@ -119,8 +131,6 @@ func (m *Map) ExtractFormValue(form url.Values) (err error) {
 				}
 			}
 		}
-		delete(form, k)
-		m.Entries[key] = v
 	}
 
 	if m.MaxEntries > 0 && len(m.Entries) > m.MaxEntries {

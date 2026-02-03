@@ -19,7 +19,8 @@ func TestMapExtractMax(t *testing.T) {
 		"foo[baz]": {"three"},
 	}
 
-	_ = s.ExtractFormValue(form)
+	s.ExtractFormValue(form)
+	_ = s.Validate()
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
@@ -35,7 +36,8 @@ func TestMapExtractMaxLength(t *testing.T) {
 		"foo[bar]": {"two", "three"},
 	}
 
-	_ = s.ExtractFormValue(form)
+	s.ExtractFormValue(form)
+	_ = s.Validate()
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
@@ -51,7 +53,8 @@ func TestMapExtractMaxKeysLength(t *testing.T) {
 		"foo[barbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbaz]": {"two"},
 	}
 
-	_ = s.ExtractFormValue(form)
+	s.ExtractFormValue(form)
+	_ = s.Validate()
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
