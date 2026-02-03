@@ -70,6 +70,8 @@ func (s *Select) SetValues(values ...string) (err error) {
 // Values returns a iterator of the values of all selected non-disabled options.
 //
 // If o.Multiple is false, only the first selected value is returned.
+//
+// See also Value() for easily getting just the first selected value.
 func (s Select) Values() iter.Seq[string] {
 	return iter.Seq[string](func(yield func(string) bool) {
 		for _, o := range s.Options {
@@ -84,6 +86,8 @@ func (s Select) Values() iter.Seq[string] {
 }
 
 // Returns the value of the first selected non-disabled option in s.Options.
+//
+// See also Values() for getting all selected values when s.Multiple == true.
 func (s Select) Value() string {
 	next, stop := iter.Pull(s.Values())
 	defer stop()
@@ -95,7 +99,7 @@ func (s Select) Value() string {
 //
 // An error is returned if a value is extracted that is not listed
 // in s.Options; but it is safe to ignore this error if unlisted
-// selections are allowed. See [Input.SetValues]
+// selections are allowed. See [Select.SetValues]
 func (s *Select) ExtractFormValue(form url.Values) (err error) {
 	formValue, ok := form[s.Name]
 	if !ok {

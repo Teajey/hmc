@@ -8,11 +8,9 @@ import (
 	"strings"
 )
 
-// Map represents an arbitrary set of key-value entries. Where Name: "foo", the form submission may provide `foo[x]=y&foo[a]=b&foo[stuff]=etc`.
+// Map represents an arbitrary set of key-value entries. Where Name == "foo", the form submission may populate Entries with values like this `foo[x]=y&foo[a]=b&foo[stuff]=etc`.
 //
-// When name is not set, [Map.ExtractFormValue] will extract all values from the given form.
-//
-// Key lengths in Entries are limited to [MaxMapKeyLength].
+// When Name == "", [Map.ExtractFormValue] will extract all values from the given form. Extract specific fields first to prevent them from being captured by the catch-all.
 type Map struct {
 	Label string `json:"-"`
 	Name  string `json:"-"`
@@ -37,10 +35,10 @@ type Map struct {
 }
 
 // NamedKey returns key as a form name.
-//
 // E.g. where m.Name = "foo", m.NamedKey("bar") returns "foo[bar]"
 //
-// If name is not set, key is returned unchanged
+// If Name is not set, key is returned unchanged.
+// E.g. where m.Name = "", m.NamedKey("bar") returns "bar"
 func (m Map) NamedKey(key string) string {
 	if m.Name == "" {
 		return key

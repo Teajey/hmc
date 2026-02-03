@@ -36,7 +36,6 @@
 //	    LoginForm hmc.Form[struct {
 //	        Username hmc.Input
 //	        Password hmc.Input
-//	        Submit   hmc.Submit
 //	    }]
 //	    RegisterLink hmc.Link
 //	}

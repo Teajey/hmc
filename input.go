@@ -14,11 +14,6 @@ import (
 // including validation requirements.
 //
 // It is analogous to HTML's <input> and <textarea>.
-//
-// IMPORTANT: Some fields are mutually-irrelevant; such as Options and MinLength,
-// but they are both kept in this struct for simplicity. It is not an error
-// to have them both set at the same time, but it is semantically incorrect
-// and may cause confusion.
 type Input struct {
 	Label     string
 	Type      string
@@ -205,7 +200,7 @@ func (e ErrInputValueAsTime) Error() string {
 	return "not a valid time"
 }
 
-// ParseValueAsDatetime parses i.Value as `type="time"`. An ISO 8601 time.
+// ParseValueAsTime parses i.Value as `type="time"`. An ISO 8601 time.
 //
 // [Input.Type] is not checked here.
 func (i *Input) ParseValueAsTime() (t time.Time, err error) {
@@ -231,7 +226,7 @@ func (e ErrInputValueAsDate) Error() string {
 	return "not a valid date"
 }
 
-// ParseValueAsDatetime parses i.Value as `type="date"`. An ISO 8601 date.
+// ParseValueAsDate parses i.Value as `type="date"`. An ISO 8601 date.
 //
 // [Input.Type] is not checked here.
 func (i *Input) ParseValueAsDate() (t time.Time, err error) {
@@ -285,7 +280,7 @@ func (e ErrInputValueAsDatetimeLocal) Error() string {
 	return "not a valid datetime-local"
 }
 
-// ParseValueAsDatetime parses i.Value as `type="datetime-local"`. An ISO 8601 datetime without a timezone.
+// ParseValueAsDatetimeLocal parses i.Value as `type="datetime-local"`. An ISO 8601 datetime without a timezone.
 //
 // [Input.Type] is not checked here.
 func (i *Input) ParseValueAsDatetimeLocal() (t time.Time, err error) {
