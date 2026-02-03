@@ -52,7 +52,6 @@
 //
 // This is not a complete HTML generation framework. You bring your own
 // templates for presentation (you should use the examples as a starting point).
-// This is not a client-side form library—it's server-side semantics.
-// This is not a validation framework—it provides minimal checks and extension
-// points for your domain rules.
+// This is not a validation framework—it provides minimal checks that may
+// be extended by you.
 package hmc
