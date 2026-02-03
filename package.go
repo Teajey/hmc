@@ -48,12 +48,6 @@
 // and MinLength, matching basic browser behavior. Extend by inspecting
 // Input.Value and setting Input.Error for domain-specific rules.
 //
-// # Pairs Well With
-//
-// This library pairs naturally with github.com/Teajey/rsvp, which provides
-// HTTP handlers with ergonomic content negotiation, making it easy to serve
-// the same semantic data in multiple formats based on Accept headers.
-//
 // # What This Is Not
 //
 // This is not a complete HTML generation framework. You bring your own
