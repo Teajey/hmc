@@ -42,7 +42,8 @@ type Select struct {
 var ErrSelectHasNonOption = errors.New("SelectHasNonOption")
 
 // SetValues returns an error if a value is provided that is not listed
-// in s.Options; but this may be ignored.
+// in s.Options. Ignore this error if this Select is meant to allow
+// unlisted selections.
 func (s *Select) SetValues(values ...string) (err error) {
 	for i := range s.Options {
 		s.Options[i].Selected = false
@@ -66,6 +67,9 @@ func (s *Select) SetValues(values ...string) (err error) {
 	return
 }
 
+// Values returns a iterator of the values of all selected non-disabled options.
+//
+// If o.Multiple is false, only the first selected value is returned.
 func (s Select) Values() iter.Seq[string] {
 	return iter.Seq[string](func(yield func(string) bool) {
 		for _, o := range s.Options {
@@ -79,6 +83,7 @@ func (s Select) Values() iter.Seq[string] {
 	})
 }
 
+// Returns the value of the first selected non-disabled option in s.Options.
 func (s Select) Value() string {
 	next, stop := iter.Pull(s.Values())
 	defer stop()
@@ -89,7 +94,8 @@ func (s Select) Value() string {
 // ExtractFormValue behaves similarly to [Input.ExtractFormValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
 //
 // An error is returned if a value is extracted that is not listed
-// in s.Options; but this may be ignored.
+// in s.Options; but it is safe to ignore this error if unlisted
+// selections are allowed. See [Input.SetValues]
 func (s *Select) ExtractFormValue(form url.Values) (err error) {
 	formValue, ok := form[s.Name]
 	if !ok {
