@@ -143,9 +143,11 @@ func (p *Input) cmpLess(x, y string) bool {
 // [Input.Required], [Input.Max], [Input.Min], [Input.MaxLength], and [Input.MinLength] are checked, in that order. Similar to the minimal
 // checks that a browser would make for equivalent HTML.
 //
-// This function does not validate [Input.Step].
+// Because it is complex to implement for whatever many types [Input.Type] might be set to, this function does not validate [Input.Step].
 //
-// Type is validated lazily when an Input.ParseValueAs* function is called, regardless of [Input.Type].
+// [Input.Type] is treated as a hint to the user, [Input.Value] is not checked against [Input.Type]. Such validation is performed when a corresponding
+// Input.ParseValueAs* method is called, although again, [Input.Type] is not checked, and any parse method may be called regardless of the type attribute.
+// It is your responsibility to make sure that [Input.Type] is set according to how it is parsed.
 //
 // This functionality can be extended with more bespoke validation by
 // checking fields and setting the [Input.Error] field accordingly.
@@ -204,6 +206,8 @@ func (e ErrInputValueAsTime) Error() string {
 }
 
 // ParseValueAsDatetime parses i.Value as `type="time"`. An ISO 8601 time.
+//
+// [Input.Type] is not checked here.
 func (i *Input) ParseValueAsTime() (t time.Time, err error) {
 	if i.Value == "" {
 		return
@@ -228,6 +232,8 @@ func (e ErrInputValueAsDate) Error() string {
 }
 
 // ParseValueAsDatetime parses i.Value as `type="date"`. An ISO 8601 date.
+//
+// [Input.Type] is not checked here.
 func (i *Input) ParseValueAsDate() (t time.Time, err error) {
 	if i.Value == "" {
 		return
@@ -254,6 +260,8 @@ func (e ErrInputValueAsDatetime) Error() string {
 // ParseValueAsDatetime parses i.Value as `type="datetime"`. An ISO 8601 datetime that expects a timezone.
 //
 // WARNING: This is not widely supported by browsers.
+//
+// [Input.Type] is not checked here.
 func (i *Input) ParseValueAsDatetime() (t time.Time, err error) {
 	if i.Value == "" {
 		return
@@ -278,6 +286,8 @@ func (e ErrInputValueAsDatetimeLocal) Error() string {
 }
 
 // ParseValueAsDatetime parses i.Value as `type="datetime-local"`. An ISO 8601 datetime without a timezone.
+//
+// [Input.Type] is not checked here.
 func (i *Input) ParseValueAsDatetimeLocal() (t time.Time, err error) {
 	if i.Value == "" {
 		return

@@ -14,7 +14,7 @@ const (
 
 // Map represents an arbitrary set of key-value entries. Where Name: "foo", the form submission may provide `foo[x]=y&foo[a]=b&foo[stuff]=etc`.
 //
-// When name is not set, all remaining entries in the form will be collected into Entries.
+// When name is not set, [Map.ExtractFormValue] will extract all values from the given form.
 //
 // Key lengths in Entries are limited to [MaxMapKeyLength].
 type Map struct {
