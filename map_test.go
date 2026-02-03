@@ -10,8 +10,8 @@ import (
 
 func TestMapExtractMax(t *testing.T) {
 	s := hmc.Map{
-		Name: "foo",
-		Max:  1,
+		Name:       "foo",
+		MaxEntries: 1,
 	}
 
 	form := url.Values{
@@ -28,7 +28,7 @@ func TestMapExtractMax(t *testing.T) {
 func TestMapExtractMaxLength(t *testing.T) {
 	s := hmc.Map{
 		Name:      "foo",
-		MaxLength: 1,
+		MaxValues: 1,
 	}
 
 	form := url.Values{
@@ -43,7 +43,8 @@ func TestMapExtractMaxLength(t *testing.T) {
 
 func TestMapExtractMaxKeysLength(t *testing.T) {
 	s := hmc.Map{
-		Name: "foo",
+		Name:         "foo",
+		MaxKeyLength: 256,
 	}
 
 	form := url.Values{
