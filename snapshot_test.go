@@ -30,7 +30,7 @@ type login struct {
 	ConfirmPassword hmc.Input
 	FavouriteFood   hmc.Select
 	Misc            hmc.Map
-	Login           hmc.Link
+	Login           hmc.Link `json:"LoginLink"`
 }
 
 func (l *login) ExtractValues(form url.Values) {

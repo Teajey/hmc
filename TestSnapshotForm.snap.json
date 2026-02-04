@@ -45,9 +45,6 @@
         ]
       }
     },
-    "Login": {
-      "label": "Register",
-      "href": "/register"
-    }
+    "LoginLink": "/register"
   }
 }
