@@ -58,7 +58,7 @@ func (l *login) Validate() {
 
 func TestSnapshotForm(t *testing.T) {
 	page := myPage{
-		Namespace: hmc.SetNamespace(),
+		Namespace: hmc.NS(),
 		Title:     "Login to my thing",
 		Form: hmc.Form[login]{
 			Method: "POST",
