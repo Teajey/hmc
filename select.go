@@ -3,7 +3,6 @@ package hmc
 import (
 	"cmp"
 	"encoding/xml"
-	"errors"
 	"iter"
 	"net/url"
 )
@@ -39,7 +38,11 @@ type Select struct {
 	Options  []Option `json:"options"`
 }
 
-var ErrSelectHasNonOption = errors.New("SelectHasNonOption")
+type ErrSelectHasNonOption struct{}
+
+func (ErrSelectHasNonOption) Error() string {
+	return "Unlisted selection"
+}
 
 // SetValues returns an error if a value is provided that is not listed
 // in s.Options. Ignore this error if this Select is meant to allow
@@ -57,7 +60,7 @@ func (s *Select) SetValues(values ...string) (err error) {
 			}
 		}
 		if !found {
-			err = ErrSelectHasNonOption
+			err = ErrSelectHasNonOption{}
 			s.Options = append([]Option{{
 				Value:    v,
 				Selected: true,
