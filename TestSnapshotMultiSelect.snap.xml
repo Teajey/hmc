@@ -1,6 +1,8 @@
-<c:Select multiple="" label="Favourite animals" name="fav_anim" required="true">
-  <c:Option selected="">mouse</c:Option>
-  <c:Option selected="" value="dog">Dog</c:Option>
-  <c:Option selected="" value="cat">Cat</c:Option>
-  <c:Option value="gn_pig">Guinea pig</c:Option>
-</c:Select>
+<c:Label>Favourite animals
+  <c:Select multiple="true" name="fav_anim" required="true">
+    <c:Option selected="">mouse</c:Option>
+    <c:Option selected="" value="dog">Dog</c:Option>
+    <c:Option selected="" value="cat">Cat</c:Option>
+    <c:Option value="gn_pig">Guinea pig</c:Option>
+  </c:Select>
+</c:Label>

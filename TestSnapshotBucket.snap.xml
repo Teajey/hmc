@@ -1,6 +1,8 @@
-<c:Map label="Leftover data" name="">
-  <c:Input name="data[drinks]" value="water"></c:Input>
-  <c:Input name="data[drinks]" value="tea"></c:Input>
-  <c:Input name="data[food]" value="icecream"></c:Input>
-  <c:Input name="tree" value="oak"></c:Input>
-</c:Map>
+<c:Label>Leftover data
+  <c:Map name="">
+    <c:Input name="data[drinks]" value="water"></c:Input>
+    <c:Input name="data[drinks]" value="tea"></c:Input>
+    <c:Input name="data[food]" value="icecream"></c:Input>
+    <c:Input name="tree" value="oak"></c:Input>
+  </c:Map>
+</c:Label>

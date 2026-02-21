@@ -37,22 +37,17 @@ func (i Input) MarshalJSON() ([]byte, error) {
 	return json.Marshal(j)
 }
 
-func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	var input xml.StartElement
+func (i Input) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
+	label.Name.Local = "c:Label"
 
-	if i.Label != "" {
-		start.Name.Local = "c:Label"
-		input = xml.StartElement{Name: xml.Name{Local: "c:Input"}}
-		if err := e.EncodeToken(start); err != nil {
-			return fmt.Errorf("encoding label start: %w", err)
-		}
-		if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
-			return fmt.Errorf("encoding label text: %w", err)
-		}
-	} else {
-		start.Name.Local = "c:Input"
-		input = start
+	if err := e.EncodeToken(label); err != nil {
+		return fmt.Errorf("encoding label start: %w", err)
 	}
+	if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
+		return fmt.Errorf("encoding label text: %w", err)
+	}
+
+	input := xml.StartElement{Name: xml.Name{Local: "c:Input"}}
 
 	if i.Disabled {
 		input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
@@ -101,10 +96,8 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return fmt.Errorf("encoding input end: %w", err)
 	}
 
-	if i.Label != "" {
-		if err := e.EncodeToken(start.End()); err != nil {
-			return fmt.Errorf("encoding label end: %w", err)
-		}
+	if err := e.EncodeToken(label.End()); err != nil {
+		return fmt.Errorf("encoding label end: %w", err)
 	}
 
 	return nil
