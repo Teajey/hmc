@@ -1,1 +1,4 @@
-"/register"
+{
+  "label": "Register",
+  "href": "/register"
+}

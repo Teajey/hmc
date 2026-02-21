@@ -12,25 +12,25 @@ import (
 //
 // When Name == "", [Map.ExtractFormValue] will extract all values from the given form. Extract specific fields first to prevent them from being captured by the catch-all.
 type Map struct {
-	Label string `json:"-"`
-	Name  string `json:"-"`
+	Label string `json:"label"`
+	Name  string `json:"name"`
 	Error string `json:"error"`
 	// MaxEntries sets the maximum number of entries allowed when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
-	MaxEntries int `json:"-"`
+	MaxEntries int `json:"max_entries,omitempty"`
 	// MaxKeyLength sets the maximum length that any given key may be when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
-	MaxKeyLength int `json:"-"`
+	MaxKeyLength int `json:"max_key_length,omitempty"`
 	// MaxValues sets the maximum number of values allowed per entry when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
-	MaxValues int `json:"-"`
+	MaxValues int `json:"max_values,omitempty"`
 	// MaxValueLength sets the maximum length any given value may be, in any given entry, when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
-	MaxValueLength int                 `json:"-"`
+	MaxValueLength int                 `json:"max_value_length,omitempty"`
 	Entries        map[string][]string `json:"entries"`
 }
 
