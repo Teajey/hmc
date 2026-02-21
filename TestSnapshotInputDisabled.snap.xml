@@ -1,3 +1,5 @@
-<c:Input label="Message" disabled="true">
-  <c:Error>This is a bad message</c:Error>
-</c:Input>
+<c:Label>Message
+  <c:Input disabled="true">
+    <c:Error>This is a bad message</c:Error>
+  </c:Input>
+</c:Label>

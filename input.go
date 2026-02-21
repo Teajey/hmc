@@ -38,53 +38,76 @@ func (i Input) MarshalJSON() ([]byte, error) {
 }
 
 func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name.Local = "c:Input"
+	var input xml.StartElement
 
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "label"}, Value: i.Label})
+	if i.Label != "" {
+		start.Name.Local = "c:Label"
+		input = xml.StartElement{Name: xml.Name{Local: "c:Input"}}
+		if err := e.EncodeToken(start); err != nil {
+			return fmt.Errorf("encoding label start: %w", err)
+		}
+		if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
+			return fmt.Errorf("encoding label text: %w", err)
+		}
+	} else {
+		start.Name.Local = "c:Input"
+		input = start
+	}
+
 	if i.Disabled {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
+		input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
 	} else {
 		if i.Type != "" {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "type"}, Value: i.Type})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "type"}, Value: i.Type})
 		}
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+		input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
 		if i.Type == "password" && i.Value != "" {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
 		} else {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: i.Value})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: i.Value})
 		}
 		if i.MinLength > 0 {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "minlength"}, Value: fmt.Sprintf("%d", i.MinLength)})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "minlength"}, Value: fmt.Sprintf("%d", i.MinLength)})
 		}
 		if i.MaxLength > 0 {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxlength"}, Value: fmt.Sprintf("%d", i.MaxLength)})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "maxlength"}, Value: fmt.Sprintf("%d", i.MaxLength)})
 		}
 		if i.Step > 0 {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "step"}, Value: fmt.Sprintf("%f", i.Step)})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "step"}, Value: fmt.Sprintf("%f", i.Step)})
 		}
 		if i.Min != "" {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "min"}, Value: i.Min})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "min"}, Value: i.Min})
 		}
 		if i.Max != "" {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "max"}, Value: i.Max})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "max"}, Value: i.Max})
 		}
 		if i.Required {
-			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
 		}
 	}
 
-	if err := e.EncodeToken(start); err != nil {
-		return err
+	if err := e.EncodeToken(input); err != nil {
+		return fmt.Errorf("encoding input start: %w", err)
 	}
 
 	if i.Error != "" {
 		errorStart := xml.StartElement{Name: xml.Name{Local: "c:Error"}}
 		if err := e.EncodeElement(i.Error, errorStart); err != nil {
-			return err
+			return fmt.Errorf("encoding error: %w", err)
 		}
 	}
 
-	return e.EncodeToken(start.End())
+	if err := e.EncodeToken(input.End()); err != nil {
+		return fmt.Errorf("encoding input end: %w", err)
+	}
+
+	if i.Label != "" {
+		if err := e.EncodeToken(start.End()); err != nil {
+			return fmt.Errorf("encoding label end: %w", err)
+		}
+	}
+
+	return nil
 }
 
 type ErrInputRequired struct{}
