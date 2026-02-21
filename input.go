@@ -18,10 +18,10 @@ type Input struct {
 	Label     string
 	Type      string
 	Name      string
+	Value     string
 	Error     string
 	Required  bool
 	Disabled  bool
-	Value     string
 	MinLength uint
 	MaxLength uint
 	Step      float32
@@ -32,14 +32,12 @@ type Input struct {
 func (i Input) MarshalJSON() ([]byte, error) {
 	if i.Disabled {
 		j := inputJsonDisabled{
+			Label:    i.Label,
 			Disabled: true,
 		}
 		return json.Marshal(j)
 	}
-	j := inputJson{
-		Error: i.Error,
-		Value: i.Value,
-	}
+	j := inputJson(i)
 	if i.Type == "password" && j.Value != "" {
 		j.Value = "********"
 	}

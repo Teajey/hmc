@@ -2,16 +2,27 @@
   "Title": "Login to my thing",
   "Form": {
     "Username": {
+      "label": "Username",
+      "name": "username",
+      "value": "john",
       "error": "",
-      "value": "john"
+      "required": true
     },
     "Password": {
+      "label": "Password",
+      "type": "password",
+      "name": "password",
+      "value": "********",
       "error": "",
-      "value": "********"
+      "required": true
     },
     "ConfirmPassword": {
+      "label": "Confirm password",
+      "type": "password",
+      "name": "confirmPassword",
+      "value": "",
       "error": "value is required",
-      "value": ""
+      "required": true
     },
     "FavouriteFood": {
       "error": "",
