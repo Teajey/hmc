@@ -1,20 +1,24 @@
 {{define "input_attrs" -}}
 
-{{if .Type}}type="{{.Type}}" {{end -}}
-{{- if .Disabled}}disabled {{end -}}
-name="{{- .Name -}}" value="{{.Value}}"
+{{if .Type}} type="{{.Type}}" {{- end -}}
+{{- if .Disabled}} disabled
+
+{{- else}} name="{{.Name}}" value="{{.Value}}"
 {{- if .Required}} required {{- end -}}
+
+{{- end -}}
+
 {{- if .MinLength}} minlength="{{.MinLength}}" {{- end -}}
 {{- if .MaxLength}} maxlength="{{.MaxLength}}" {{- end -}}
 {{- if .Max}} max="{{.Max}}" {{- end -}}
 {{- if .Min}} min="{{.Min}}" {{- end -}}
 {{- if .Step}} step="{{.Step}}" {{- end -}}
-{{- if .Error}} aria-invalid="true" aria-errormessage="{{.Name}}Error"{{- end -}}
+{{- if .Error}} aria-invalid="true" aria-errormessage="{{.Name}}Error" {{- end -}}
 
 {{- end}}
 
 {{define "input_inner" -}}
-<input {{template "input_attrs" . -}}>
+<input {{- template "input_attrs" . -}}>
 {{- end}}
 
 {{block "input" . -}}
