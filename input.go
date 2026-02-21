@@ -41,35 +41,36 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start.Name.Local = "c:Input"
 
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "label"}, Value: i.Label})
-	if i.Type != "" {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "type"}, Value: i.Type})
-	}
 	if i.Disabled {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
-	}
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
-	if i.Type == "password" && i.Value != "" {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
 	} else {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: i.Value})
-	}
-	if i.MinLength > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "minlength"}, Value: fmt.Sprintf("%d", i.MinLength)})
-	}
-	if i.MaxLength > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxlength"}, Value: fmt.Sprintf("%d", i.MaxLength)})
-	}
-	if i.Step > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "step"}, Value: fmt.Sprintf("%f", i.Step)})
-	}
-	if i.Min != "" {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "min"}, Value: i.Min})
-	}
-	if i.Max != "" {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "max"}, Value: i.Max})
-	}
-	if i.Required {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+		if i.Type != "" {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "type"}, Value: i.Type})
+		}
+		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+		if i.Type == "password" && i.Value != "" {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
+		} else {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: i.Value})
+		}
+		if i.MinLength > 0 {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "minlength"}, Value: fmt.Sprintf("%d", i.MinLength)})
+		}
+		if i.MaxLength > 0 {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxlength"}, Value: fmt.Sprintf("%d", i.MaxLength)})
+		}
+		if i.Step > 0 {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "step"}, Value: fmt.Sprintf("%f", i.Step)})
+		}
+		if i.Min != "" {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "min"}, Value: i.Min})
+		}
+		if i.Max != "" {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "max"}, Value: i.Max})
+		}
+		if i.Required {
+			start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+		}
 	}
 
 	if err := e.EncodeToken(start); err != nil {
