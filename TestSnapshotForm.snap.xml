@@ -3,11 +3,17 @@
   <Title>Login to my thing</Title>
   <c:Form method="POST">
     <login>
-      <c:Input label="Username" name="username" value="john" required="true"></c:Input>
-      <c:Input label="Password" type="password" name="password" value="********" required="true"></c:Input>
-      <c:Input label="Confirm password" type="password" name="confirmPassword" value="" required="true">
-        <c:Error>value is required</c:Error>
-      </c:Input>
+      <c:Label>Username
+        <c:Input name="username" value="john" required="true"></c:Input>
+      </c:Label>
+      <c:Label>Password
+        <c:Input type="password" name="password" value="********" required="true"></c:Input>
+      </c:Label>
+      <c:Label>Confirm password
+        <c:Input type="password" name="confirmPassword" value="" required="true">
+          <c:Error>value is required</c:Error>
+        </c:Input>
+      </c:Label>
       <c:Select label="Favourite food" name="favFood" required="true">
         <c:Option></c:Option>
         <c:Option>fruit</c:Option>
