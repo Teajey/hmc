@@ -20,6 +20,7 @@ type Input struct {
 	Name      string
 	Error     string
 	Required  bool
+	Disabled  bool
 	Value     string
 	MinLength uint
 	MaxLength uint
@@ -40,10 +41,13 @@ func (i Input) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start.Name.Local = "c:Input"
 
 	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "label"}, Value: i.Label})
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
 	if i.Type != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "type"}, Value: i.Type})
 	}
+	if i.Disabled {
+		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
+	}
+	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
 	if i.Type == "password" && i.Value != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
 	} else {
@@ -181,6 +185,9 @@ func (p *Input) Validate() (err error) {
 //
 // The found value is deleted from form.
 func (i *Input) ExtractFormValue(form url.Values) {
+	if i.Disabled {
+		return
+	}
 	formValue, ok := form[i.Name]
 	if ok {
 		i.Value = formValue[0]

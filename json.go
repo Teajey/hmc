@@ -6,6 +6,7 @@ type inputJson struct {
 	Name      string  `json:"-"`
 	Error     string  `json:"error"`
 	Required  bool    `json:"-"`
+	Disabled  bool    `json:"disabled,omitempty"`
 	Value     string  `json:"value"`
 	MinLength uint    `json:"-"`
 	MaxLength uint    `json:"-"`

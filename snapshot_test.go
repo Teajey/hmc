@@ -150,6 +150,26 @@ func TestSnapshotInput(t *testing.T) {
 	assert.SnapshotJson(t, input)
 }
 
+func TestSnapshotInputDisabled(t *testing.T) {
+	input := hmc.Input{
+		Label:     "Message",
+		Type:      "text",
+		Name:      "msg",
+		Disabled:  true,
+		Value:     "Hey...",
+		MinLength: 3,
+		Error:     "This is a bad message",
+	}
+
+	buf := bytes.NewBuffer([]byte{})
+	err := tm.ExecuteTemplate(buf, "input", input)
+	assert.FatalErr(t, "executing template", err)
+
+	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+}
+
 func TestSnapshotSelect(t *testing.T) {
 	input := hmc.Select{
 		Label:    "Mug size",

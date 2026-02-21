@@ -14,6 +14,7 @@ type formatted struct {
 	Name      string `json:"-"`
 	Error     string
 	Required  bool `json:",omitempty"`
+	Disabled  bool `json:",omitempty"`
 	Value     string
 	MinLength uint    `json:",omitempty"`
 	MaxLength uint    `json:",omitempty"`

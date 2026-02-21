@@ -1,3 +1,3 @@
-<c:Input label="Message" name="msg" type="text" value="Hey..." minlength="3" required="true">
+<c:Input label="Message" type="text" name="msg" value="Hey..." minlength="3" required="true">
   <c:Error>This is a bad message</c:Error>
 </c:Input>

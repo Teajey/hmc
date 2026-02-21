@@ -4,8 +4,8 @@
   <c:Form method="POST">
     <login>
       <c:Input label="Username" name="username" value="john" required="true"></c:Input>
-      <c:Input label="Password" name="password" type="password" value="********" required="true"></c:Input>
-      <c:Input label="Confirm password" name="confirmPassword" type="password" value="" required="true">
+      <c:Input label="Password" type="password" name="password" value="********" required="true"></c:Input>
+      <c:Input label="Confirm password" type="password" name="confirmPassword" value="" required="true">
         <c:Error>value is required</c:Error>
       </c:Input>
       <c:Select label="Favourite food" name="favFood" required="true">
