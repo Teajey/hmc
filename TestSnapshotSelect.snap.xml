@@ -1,6 +1,8 @@
-<c:Select label="Mug size" name="mugs" required="true">
-  <c:Option selected="">Wumbo</c:Option>
-  <c:Option value="lg">Large</c:Option>
-  <c:Option value="md">Medium</c:Option>
-  <c:Option value="sm">Small</c:Option>
-</c:Select>
+<c:Label>Mug size
+  <c:Select name="mugs" required="true">
+    <c:Option selected="">Wumbo</c:Option>
+    <c:Option value="lg">Large</c:Option>
+    <c:Option value="md">Medium</c:Option>
+    <c:Option value="sm">Small</c:Option>
+  </c:Select>
+</c:Label>

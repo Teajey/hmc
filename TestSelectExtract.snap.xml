@@ -1,6 +1,8 @@
-<c:Select label="" name="myval">
-  <c:Option>one</c:Option>
-  <c:Option selected="">two</c:Option>
-  <c:Option>three</c:Option>
-  <c:Option disabled="">four</c:Option>
-</c:Select>
+<c:Label>
+  <c:Select name="myval">
+    <c:Option>one</c:Option>
+    <c:Option selected="">two</c:Option>
+    <c:Option>three</c:Option>
+    <c:Option disabled="">four</c:Option>
+  </c:Select>
+</c:Label>

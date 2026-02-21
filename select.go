@@ -3,6 +3,7 @@ package hmc
 import (
 	"cmp"
 	"encoding/xml"
+	"fmt"
 	"iter"
 	"net/url"
 )
@@ -122,27 +123,43 @@ func (s *Select) ExtractFormValue(form url.Values) (err error) {
 	return
 }
 
-func (i Select) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name.Local = "c:Select"
+func (i Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
+	label.Name.Local = "c:Label"
+
+	if err := e.EncodeToken(label); err != nil {
+		return fmt.Errorf("encoding label start: %w", err)
+	}
+	if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
+		return fmt.Errorf("encoding label text: %w", err)
+	}
+
+	sel := xml.StartElement{Name: xml.Name{Local: "c:Select"}}
 
 	if i.Multiple {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "multiple"}})
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "multiple"}, Value: "true"})
 	}
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "label"}, Value: i.Label})
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+	sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
 	if i.Required {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
 	}
 
-	if err := e.EncodeToken(start); err != nil {
+	if err := e.EncodeToken(sel); err != nil {
 		return nil
 	}
 
 	for _, o := range i.Options {
-		if err := e.EncodeElement(o, start); err != nil {
+		if err := e.EncodeElement(o, sel); err != nil {
 			return err
 		}
 	}
 
-	return e.EncodeToken(start.End())
+	if err := e.EncodeToken(sel.End()); err != nil {
+		return fmt.Errorf("encoding select end: %w", err)
+	}
+
+	if err := e.EncodeToken(label.End()); err != nil {
+		return fmt.Errorf("encoding label end: %w", err)
+	}
+
+	return nil
 }

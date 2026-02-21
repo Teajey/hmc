@@ -142,24 +142,33 @@ func (m *Map) Validate() (err error) {
 	return
 }
 
-func (m Map) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
-	start.Name.Local = "c:Map"
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "label"}, Value: m.Label})
-	start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: m.Name})
-	if m.MaxEntries > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxentries"}, Value: fmt.Sprintf("%d", m.MaxEntries)})
+func (m Map) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
+	label.Name.Local = "c:Label"
+
+	if err := e.EncodeToken(label); err != nil {
+		return fmt.Errorf("encoding label start: %w", err)
 	}
-	if m.MaxKeyLength > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxkeylength"}, Value: fmt.Sprintf("%d", m.MaxKeyLength)})
-	}
-	if m.MaxValues > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxvalues"}, Value: fmt.Sprintf("%d", m.MaxValues)})
-	}
-	if m.MaxValueLength > 0 {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "maxvaluelength"}, Value: fmt.Sprintf("%d", m.MaxValueLength)})
+	if err := e.EncodeToken(xml.CharData(m.Label)); err != nil {
+		return fmt.Errorf("encoding label text: %w", err)
 	}
 
-	if err := e.EncodeToken(start); err != nil {
+	inner := xml.StartElement{Name: xml.Name{Local: "c:Map"}}
+
+	inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: m.Name})
+	if m.MaxEntries > 0 {
+		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxentries"}, Value: fmt.Sprintf("%d", m.MaxEntries)})
+	}
+	if m.MaxKeyLength > 0 {
+		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxkeylength"}, Value: fmt.Sprintf("%d", m.MaxKeyLength)})
+	}
+	if m.MaxValues > 0 {
+		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxvalues"}, Value: fmt.Sprintf("%d", m.MaxValues)})
+	}
+	if m.MaxValueLength > 0 {
+		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxvaluelength"}, Value: fmt.Sprintf("%d", m.MaxValueLength)})
+	}
+
+	if err := e.EncodeToken(inner); err != nil {
 		return err
 	}
 
@@ -188,5 +197,13 @@ func (m Map) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		}
 	}
 
-	return e.EncodeToken(start.End())
+	if err := e.EncodeToken(inner.End()); err != nil {
+		return fmt.Errorf("encoding map end: %w", err)
+	}
+
+	if err := e.EncodeToken(label.End()); err != nil {
+		return fmt.Errorf("encoding label end: %w", err)
+	}
+
+	return nil
 }
