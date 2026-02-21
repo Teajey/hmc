@@ -7,7 +7,6 @@
         "label": "Username",
         "name": "username",
         "value": "john",
-        "error": "",
         "required": true
       },
       "Password": {
@@ -15,7 +14,6 @@
         "type": "password",
         "name": "password",
         "value": "********",
-        "error": "",
         "required": true
       },
       "ConfirmPassword": {
@@ -29,7 +27,6 @@
       "FavouriteFood": {
         "label": "Favourite food",
         "name": "favFood",
-        "error": "",
         "required": true,
         "options": [
           {
@@ -57,7 +54,6 @@
       "Misc": {
         "label": "Any other arbitrary information you wanna provide?",
         "name": "misc",
-        "error": "",
         "entries": {
           "iq": [
             "80"

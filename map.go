@@ -14,7 +14,7 @@ import (
 type Map struct {
 	Label string `json:"label"`
 	Name  string `json:"name"`
-	Error string `json:"error"`
+	Error string `json:"error,omitempty"`
 	// MaxEntries sets the maximum number of entries allowed when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.

@@ -5,7 +5,7 @@ type inputJson struct {
 	Type      string  `json:"type,omitempty"`
 	Name      string  `json:"name"`
 	Value     string  `json:"value"`
-	Error     string  `json:"error"`
+	Error     string  `json:"error,omitempty"`
 	Required  bool    `json:"required,omitempty"`
 	Disabled  bool    `json:"-"`
 	MinLength uint    `json:"minlength,omitempty"`
