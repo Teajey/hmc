@@ -34,7 +34,7 @@ type Select struct {
 	Label    string   `json:"label,omitempty"`
 	Multiple bool     `json:"multiple,omitempty"`
 	Name     string   `json:"name,omitempty"`
-	Error    string   `json:"error"`
+	Error    string   `json:"error,omitempty"`
 	Required bool     `json:"required,omitempty"`
 	Options  []Option `json:"options"`
 }
