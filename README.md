@@ -9,7 +9,7 @@ There are five main elements that hmc provides. They generally try to mimic the 
 - `<c:Form>`: analogous to HTML's `<form>`. It encloses a group of inputs, and generally describes which HTTP verb to use under the `method` attribute, e.g. `POST` or by default `GET`.
 - `<c:Input>`: analogous to HTML's `<input>` type. It represents a single name-value pair. It may have validation attributes, similar to HTML: e.g. `type`, `required`, `minlength`. An `<c:Input>` (or a `<c:Select>`, or a `<c:Map>`) outside of a `<c:Form>` is not a valid input.
 - `<c:Select>`: analogous to HTML's `<select>`. It represents an input with fixed options. The option list may be non-exaustive. It may take multiple options if the `multiple` attribute is set.
-- `<c:Link>`: analogous to HTML's `<a>` hyperlink. It provides directions to other relevant resources.
+- `<c:Link>`: analogous to HTML's `<a>` hyperlink. It provides directions to other relevant resources. A `<c:Link>` inside of a `<c:Form>` should be considered to represent an [alternate form action](https://www.w3schools.com/TAGS/att_formaction.asp).
 - `<c:Map>`: Is the only element without an HTML analogue. A `<c:Map>` with `name="foo"` means that arbitrary name-value pairs may be provided under the namespace "foo" with bracket notation, e.g. `foo[bar]=baz`.
 
 These elements can also be serialised to JSON for ease of querying, especially using [`jq`](https://jqlang.org/).
