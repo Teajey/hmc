@@ -1,61 +1,73 @@
 {
   "Title": "Login to my thing",
   "Form": {
-    "Username": {
-      "label": "Username",
-      "name": "username",
-      "value": "john",
-      "error": "",
-      "required": true
-    },
-    "Password": {
-      "label": "Password",
-      "type": "password",
-      "name": "password",
-      "value": "********",
-      "error": "",
-      "required": true
-    },
-    "ConfirmPassword": {
-      "label": "Confirm password",
-      "type": "password",
-      "name": "confirmPassword",
-      "value": "",
-      "error": "value is required",
-      "required": true
-    },
-    "FavouriteFood": {
-      "error": "",
-      "options": [
-        {
-          "value": ""
-        },
-        {
-          "value": "fruit"
-        },
-        {
-          "value": "vegetables"
-        },
-        {
-          "value": "meat"
-        },
-        {
-          "value": "fish"
-        },
-        {
-          "value": "bugs",
-          "selected": true
-        }
-      ]
-    },
-    "Misc": {
-      "error": "",
-      "entries": {
-        "iq": [
-          "80"
+    "method": "POST",
+    "elements": {
+      "Username": {
+        "label": "Username",
+        "name": "username",
+        "value": "john",
+        "error": "",
+        "required": true
+      },
+      "Password": {
+        "label": "Password",
+        "type": "password",
+        "name": "password",
+        "value": "********",
+        "error": "",
+        "required": true
+      },
+      "ConfirmPassword": {
+        "label": "Confirm password",
+        "type": "password",
+        "name": "confirmPassword",
+        "value": "",
+        "error": "value is required",
+        "required": true
+      },
+      "FavouriteFood": {
+        "label": "Favourite food",
+        "name": "favFood",
+        "error": "",
+        "required": true,
+        "options": [
+          {
+            "value": ""
+          },
+          {
+            "value": "fruit"
+          },
+          {
+            "value": "vegetables"
+          },
+          {
+            "value": "meat"
+          },
+          {
+            "value": "fish"
+          },
+          {
+            "label": "Bugs",
+            "value": "bugs",
+            "selected": true
+          }
         ]
+      },
+      "Misc": {
+        "label": "Any other arbitrary information you wanna provide?",
+        "name": "misc",
+        "error": "",
+        "entries": {
+          "iq": [
+            "80"
+          ]
+        }
+      },
+      "LoginLink": {
+        "label": "Register",
+        "href": "/register"
       }
-    },
-    "LoginLink": "/register"
+    }
   }
 }

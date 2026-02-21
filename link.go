@@ -1,15 +1,14 @@
 package hmc
 
 import (
-	"encoding/json"
 	"encoding/xml"
 )
 
 // Link represents a state transition that requires no input—a simple
 // navigation or action trigger.
 type Link struct {
-	Label string
-	Href  string
+	Label string `json:"label"`
+	Href  string `json:"href"`
 }
 
 func (i Link) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
@@ -26,8 +25,4 @@ func (i Link) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	}
 
 	return e.EncodeToken(start.End())
-}
-
-func (a Link) MarshalJSON() ([]byte, error) {
-	return json.Marshal(a.Href)
 }

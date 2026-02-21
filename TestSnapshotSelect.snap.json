@@ -1,17 +1,23 @@
 {
+  "label": "Mug size",
+  "name": "mugs",
   "error": "Unlisted selection",
+  "required": true,
   "options": [
     {
       "value": "Wumbo",
       "selected": true
     },
     {
+      "label": "Large",
       "value": "lg"
     },
     {
+      "label": "Medium",
       "value": "md"
     },
     {
+      "label": "Small",
       "value": "sm"
     }
   ]
