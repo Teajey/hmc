@@ -1,5 +1,5 @@
 {
-  "label": "Message",
+  "label": "",
   "type": "text",
   "name": "msg",
   "value": "Hey...",

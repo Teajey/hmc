@@ -1,6 +1,8 @@
 package hmc
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // Link represents a state transition that requires no input—a simple
 // navigation or action trigger.

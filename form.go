@@ -14,6 +14,7 @@ import (
 // but might also be something like `Error string` or `Warning string` fields.
 type Form[T any] struct {
 	Method   string `json:"method,omitempty"`
+	Action   string `json:"action,omitempty"`
 	Elements T      `json:"elements"`
 }
 
@@ -22,6 +23,10 @@ func (i Form[T]) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 
 	if i.Method != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "method"}, Value: i.Method})
+	}
+
+	if i.Action != "" {
+		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "action"}, Value: i.Action})
 	}
 
 	err := e.EncodeToken(start)

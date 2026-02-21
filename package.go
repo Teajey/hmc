@@ -36,7 +36,6 @@
 //	    LoginForm hmc.Form[struct {
 //	        Username hmc.Input
 //	        Password hmc.Input
-//	        Submit   hmc.Submit
 //	    }]
 //	    RegisterLink hmc.Link
 //	}
@@ -48,17 +47,10 @@
 // and MinLength, matching basic browser behavior. Extend by inspecting
 // Input.Value and setting Input.Error for domain-specific rules.
 //
-// # Pairs Well With
-//
-// This library pairs naturally with github.com/Teajey/rsvp, which provides
-// HTTP handlers with ergonomic content negotiation, making it easy to serve
-// the same semantic data in multiple formats based on Accept headers.
-//
 // # What This Is Not
 //
 // This is not a complete HTML generation framework. You bring your own
 // templates for presentation (you should use the examples as a starting point).
-// This is not a client-side form library—it's server-side semantics.
-// This is not a validation framework—it provides minimal checks and extension
-// points for your domain rules.
+// This is not a validation framework—it provides minimal checks that may
+// be extended by you.
 package hmc

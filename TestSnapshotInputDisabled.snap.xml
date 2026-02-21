@@ -1,5 +1,5 @@
 <c:Label>Message
-  <c:Input type="text" name="msg" value="Hey..." minlength="3" required="true">
+  <c:Input disabled="true">
     <c:Error>This is a bad message</c:Error>
   </c:Input>
 </c:Label>

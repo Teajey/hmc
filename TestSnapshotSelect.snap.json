@@ -1,6 +1,7 @@
 {
   "label": "Mug size",
   "name": "mugs",
+  "error": "Unlisted selection",
   "required": true,
   "options": [
     {

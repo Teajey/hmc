@@ -1,6 +1,6 @@
 {
-  "multiple": true,
   "label": "Favourite animals",
+  "multiple": true,
   "name": "fav_anim",
   "required": true,
   "options": [

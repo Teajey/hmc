@@ -30,26 +30,35 @@ type login struct {
 	ConfirmPassword hmc.Input
 	FavouriteFood   hmc.Select
 	Misc            hmc.Map
-	Login           hmc.Link
+	Login           hmc.Link `json:"LoginLink"`
 }
 
 func (l *login) ExtractValues(form url.Values) {
 	l.Username.ExtractFormValue(form)
 	l.Password.ExtractFormValue(form)
 	l.ConfirmPassword.ExtractFormValue(form)
-	l.FavouriteFood.ExtractFormValue(form)
+	_ = l.FavouriteFood.ExtractFormValue(form)
 	l.Misc.ExtractFormValue(form)
 }
 
 func (l *login) Validate() {
-	l.Username.Validate()
-	l.Password.Validate()
-	l.ConfirmPassword.Validate()
+	err := l.Username.Validate()
+	if err != nil {
+		l.Username.Error = err.Error()
+	}
+	err = l.Password.Validate()
+	if err != nil {
+		l.Password.Error = err.Error()
+	}
+	err = l.ConfirmPassword.Validate()
+	if err != nil {
+		l.ConfirmPassword.Error = err.Error()
+	}
 }
 
 func TestSnapshotForm(t *testing.T) {
 	page := myPage{
-		Namespace: hmc.SetNamespace(),
+		Namespace: hmc.NS(),
 		Title:     "Login to my thing",
 		Form: hmc.Form[login]{
 			Method: "POST",
@@ -141,6 +150,45 @@ func TestSnapshotInput(t *testing.T) {
 	assert.SnapshotJson(t, input)
 }
 
+func TestSnapshotInputDisabled(t *testing.T) {
+	input := hmc.Input{
+		Label:     "Message",
+		Type:      "text",
+		Name:      "msg",
+		Disabled:  true,
+		Value:     "Hey...",
+		MinLength: 3,
+		Error:     "This is a bad message",
+	}
+
+	buf := bytes.NewBuffer([]byte{})
+	err := tm.ExecuteTemplate(buf, "input", input)
+	assert.FatalErr(t, "executing template", err)
+
+	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+}
+
+func TestSnapshotInputNoLabel(t *testing.T) {
+	input := hmc.Input{
+		Type:      "text",
+		Name:      "msg",
+		Required:  true,
+		Value:     "Hey...",
+		MinLength: 3,
+		Error:     "This is a bad message",
+	}
+
+	buf := bytes.NewBuffer([]byte{})
+	err := tm.ExecuteTemplate(buf, "input", input)
+	assert.FatalErr(t, "executing template", err)
+
+	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+}
+
 func TestSnapshotSelect(t *testing.T) {
 	input := hmc.Select{
 		Label:    "Mug size",
@@ -156,10 +204,13 @@ func TestSnapshotSelect(t *testing.T) {
 		"mugs":  {"Wumbo"},
 		"other": {"1"},
 	}
-	input.ExtractFormValue(form)
+	err := input.ExtractFormValue(form)
+	if err != nil {
+		input.Error = err.Error()
+	}
 
 	buf := bytes.NewBuffer([]byte{})
-	err := tm.ExecuteTemplate(buf, "select", input)
+	err = tm.ExecuteTemplate(buf, "select", input)
 	assert.FatalErr(t, "executing template", err)
 
 	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
@@ -181,7 +232,7 @@ func TestSnapshotMultiSelect(t *testing.T) {
 		},
 	}
 
-	input.SetValues("dog", "cat", "mouse")
+	_ = input.SetValues("dog", "cat", "mouse")
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "select", input)

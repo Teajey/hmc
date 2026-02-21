@@ -3,22 +3,32 @@
   <Title>Login to my thing</Title>
   <c:Form method="POST">
     <login>
-      <c:Input label="Username" name="username" value="john" required="true"></c:Input>
-      <c:Input label="Password" name="password" type="password" value="********" required="true"></c:Input>
-      <c:Input label="Confirm password" name="confirmPassword" type="password" value="" required="true">
-        <c:Error>&#34;confirmPassword&#34; is required</c:Error>
-      </c:Input>
-      <c:Select label="Favourite food" name="favFood" required="true">
-        <c:Option></c:Option>
-        <c:Option>fruit</c:Option>
-        <c:Option>vegetables</c:Option>
-        <c:Option>meat</c:Option>
-        <c:Option>fish</c:Option>
-        <c:Option selected="" value="bugs">Bugs</c:Option>
-      </c:Select>
-      <c:Map label="Any other arbitrary information you wanna provide?" name="misc">
-        <c:Input name="misc[iq]" value="80"></c:Input>
-      </c:Map>
+      <c:Label>Username
+        <c:Input name="username" value="john" required="true"></c:Input>
+      </c:Label>
+      <c:Label>Password
+        <c:Input type="password" name="password" value="********" required="true"></c:Input>
+      </c:Label>
+      <c:Label>Confirm password
+        <c:Input type="password" name="confirmPassword" value="" required="true">
+          <c:Error>value is required</c:Error>
+        </c:Input>
+      </c:Label>
+      <c:Label>Favourite food
+        <c:Select name="favFood" required="true">
+          <c:Option></c:Option>
+          <c:Option>fruit</c:Option>
+          <c:Option>vegetables</c:Option>
+          <c:Option>meat</c:Option>
+          <c:Option>fish</c:Option>
+          <c:Option selected="" value="bugs">Bugs</c:Option>
+        </c:Select>
+      </c:Label>
+      <c:Label>Any other arbitrary information you wanna provide?
+        <c:Map name="misc">
+          <c:Input name="misc[iq]" value="80"></c:Input>
+        </c:Map>
+      </c:Label>
       <c:Link href="/register">Register</c:Link>
     </login>
   </c:Form>

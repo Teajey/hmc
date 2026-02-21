@@ -6,23 +6,23 @@
       "Username": {
         "label": "Username",
         "name": "username",
-        "required": true,
-        "value": "john"
+        "value": "john",
+        "required": true
       },
       "Password": {
         "label": "Password",
         "type": "password",
         "name": "password",
-        "required": true,
-        "value": "********"
+        "value": "********",
+        "required": true
       },
       "ConfirmPassword": {
         "label": "Confirm password",
         "type": "password",
         "name": "confirmPassword",
-        "required": true,
         "value": "",
-        "error": "\"confirmPassword\" is required"
+        "error": "value is required",
+        "required": true
       },
       "FavouriteFood": {
         "label": "Favourite food",
@@ -60,7 +60,7 @@
           ]
         }
       },
-      "Login": {
+      "LoginLink": {
         "label": "Register",
         "href": "/register"
       }

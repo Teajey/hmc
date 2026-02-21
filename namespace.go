@@ -2,29 +2,38 @@ package hmc
 
 import (
 	"encoding/xml"
-	"fmt"
 )
 
-// Namespace should be embedded in the top-level element to provide context about what the hyper control elements are.
+// Namespace provides the XML namespace declaration for hmc elements.
+// It should be embedded in your top-level struct and initialized using NS().
 //
-// SetNamespace should be used to populate the values to their default.
+// Without the namespace, hmc elements (c:Form, c:Input, etc.) will not be
+// properly recognized by browsers.
+//
+// Example:
+//
+//	type MyPage struct {
+//		Namespace hmc.Namespace
+//		Title     string
+//		Form      hmc.Form[MyFormData]
+//	}
+//
+//	page := MyPage{
+//		Namespace: hmc.NS(),
+//		Title:     "My Page",
+//	}
+//
+// This struct is omitted during JSON serialization.
 type Namespace struct {
 	HcXmlns string      `xml:"xmlns:c,attr" json:"-"`
 	Docs    xml.Comment `xml:",comment" json:"-"`
 }
 
-var docs xml.Comment
-
-const repo string = "github.com/Teajey/hmc"
-
-func init() {
-	docs = xml.Comment(fmt.Sprintf("See an overview of what this XML means at https://%s/blob/main/README.md ", repo))
-}
-
-// SetNamespace provides a default setting for the Namespace struct.
-func SetNamespace() Namespace {
+// NS returns a Namespace with the correct namespace URI and documentation comment.
+// Always use this function to initialize the Namespace field in your structs.
+func NS() Namespace {
 	return Namespace{
 		HcXmlns: "https://github.com/Teajey/hmc",
-		Docs:    docs,
+		Docs:    xml.Comment("See an overview of what this XML means at https://github.com/Teajey/hmc/blob/main/README.md "),
 	}
 }
