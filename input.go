@@ -30,8 +30,17 @@ type Input struct {
 }
 
 func (i Input) MarshalJSON() ([]byte, error) {
-	j := inputJson(i)
-	if j.Type == "password" && j.Value != "" {
+	if i.Disabled {
+		j := inputJsonDisabled{
+			Disabled: true,
+		}
+		return json.Marshal(j)
+	}
+	j := inputJson{
+		Error: i.Error,
+		Value: i.Value,
+	}
+	if i.Type == "password" && j.Value != "" {
 		j.Value = "********"
 	}
 	return json.Marshal(j)
