@@ -147,6 +147,13 @@ func (i Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 		return nil
 	}
 
+	if i.Error != "" {
+		errorStart := xml.StartElement{Name: xml.Name{Local: "c:Error"}}
+		if err := e.EncodeElement(i.Error, errorStart); err != nil {
+			return fmt.Errorf("encoding error: %w", err)
+		}
+	}
+
 	for _, o := range i.Options {
 		if err := e.EncodeElement(o, sel); err != nil {
 			return err

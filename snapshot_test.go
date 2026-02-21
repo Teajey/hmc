@@ -204,10 +204,13 @@ func TestSnapshotSelect(t *testing.T) {
 		"mugs":  {"Wumbo"},
 		"other": {"1"},
 	}
-	_ = input.ExtractFormValue(form)
+	err := input.ExtractFormValue(form)
+	if err != nil {
+		input.Error = err.Error()
+	}
 
 	buf := bytes.NewBuffer([]byte{})
-	err := tm.ExecuteTemplate(buf, "select", input)
+	err = tm.ExecuteTemplate(buf, "select", input)
 	assert.FatalErr(t, "executing template", err)
 
 	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())

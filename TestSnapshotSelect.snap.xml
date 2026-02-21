@@ -1,5 +1,6 @@
 <c:Label>Mug size
   <c:Select name="mugs" required="true">
+    <c:Error>Unlisted selection</c:Error>
     <c:Option selected="">Wumbo</c:Option>
     <c:Option value="lg">Large</c:Option>
     <c:Option value="md">Medium</c:Option>
