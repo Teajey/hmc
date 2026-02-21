@@ -165,7 +165,7 @@ func TestSnapshotSelect(t *testing.T) {
 		"mugs":  {"Wumbo"},
 		"other": {"1"},
 	}
-	input.ExtractFormValue(form)
+	_ = input.ExtractFormValue(form)
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "select", input)
@@ -190,7 +190,7 @@ func TestSnapshotMultiSelect(t *testing.T) {
 		},
 	}
 
-	input.SetValues("dog", "cat", "mouse")
+	_ = input.SetValues("dog", "cat", "mouse")
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "select", input)
