@@ -1,4 +1,9 @@
 {
+  "label": "",
+  "type": "text",
+  "name": "msg",
+  "value": "Hey...",
   "error": "This is a bad message",
-  "value": "Hey..."
+  "required": true,
+  "minlength": 3
 }

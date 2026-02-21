@@ -12,10 +12,10 @@ type formatted struct {
 	Label     string `json:"-"`
 	Type      string
 	Name      string `json:"-"`
-	Error     string
-	Required  bool `json:",omitempty"`
-	Disabled  bool `json:",omitempty"`
 	Value     string
+	Error     string
+	Required  bool    `json:",omitempty"`
+	Disabled  bool    `json:",omitempty"`
 	MinLength uint    `json:",omitempty"`
 	MaxLength uint    `json:",omitempty"`
 	Step      float32 `json:",omitempty"`
