@@ -1,0 +1,15 @@
+<c:Label>Mug size
+  <c:Select name="mugs" required="true">
+    <c:Error>Unlisted selection</c:Error>
+    <c:Option selected="">Wumbo</c:Option>
+    <c:Option value="lg">
+      <c:Link href="large">Large</c:Link>
+    </c:Option>
+    <c:Option value="md">
+      <c:Link href="medium">Medium</c:Link>
+    </c:Option>
+    <c:Option value="sm">
+      <c:Link href="small">Small</c:Link>
+    </c:Option>
+  </c:Select>
+</c:Label>
