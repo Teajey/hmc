@@ -19,19 +19,17 @@ type Map struct {
 	//
 	// Does nothing if set to zero or less.
 	MaxEntries int `json:"max_entries,omitempty"`
-	// MaxKeyLength sets the maximum length that any given key may be when [Map.Validate] is called.
+	// MaxLength sets the maximum length that any given entry may be when [Map.Validate] is called.
+	//
+	// The length of an entry is the length of the key + the length of the value.
 	//
 	// Does nothing if set to zero or less.
-	MaxKeyLength int `json:"max_key_length,omitempty"`
+	MaxLength int `json:"max_length,omitempty"`
 	// MaxValues sets the maximum number of values allowed per entry when [Map.Validate] is called.
 	//
 	// Does nothing if set to zero or less.
-	MaxValues int `json:"max_values,omitempty"`
-	// MaxValueLength sets the maximum length any given value may be, in any given entry, when [Map.Validate] is called.
-	//
-	// Does nothing if set to zero or less.
-	MaxValueLength int                 `json:"max_value_length,omitempty"`
-	Entries        map[string][]string `json:"entries"`
+	MaxValues int                 `json:"max_values,omitempty"`
+	Entries   map[string][]string `json:"entries"`
 }
 
 // NamedKey returns key as a form name.
@@ -47,37 +45,30 @@ func (m Map) NamedKey(key string) string {
 	}
 }
 
-type ErrMapMax struct {
+type ErrMapMaxEntries struct {
 	Max int
 }
 
-func (e ErrMapMax) Error() string {
+func (e ErrMapMaxEntries) Error() string {
 	return fmt.Sprintf("contains more than %d entrie(s)", e.Max)
 }
 
 type ErrMapMaxLength struct {
+	Key       string
 	MaxLength int
 }
 
 func (e ErrMapMaxLength) Error() string {
+	return fmt.Sprintf("contains an entry longer than %d char(s)", e.MaxLength)
+}
+
+type ErrMapMaxValues struct {
+	Key       string
+	MaxLength int
+}
+
+func (e ErrMapMaxValues) Error() string {
 	return fmt.Sprintf("contains an entry with more than %d value(s)", e.MaxLength)
-}
-
-type ErrMapMaxKeyLength struct {
-	MaxKeyLength int
-}
-
-func (e ErrMapMaxKeyLength) Error() string {
-	return fmt.Sprintf("contains a key longer than %d char(s)", e.MaxKeyLength)
-}
-
-type ErrMapMaxValueLength struct {
-	Key            string
-	MaxValueLength int
-}
-
-func (e ErrMapMaxValueLength) Error() string {
-	return fmt.Sprintf("key %#v contains a value longer than %d char(s)", e.Key, e.MaxValueLength)
 }
 
 // ExtractFormValue takes all entries from form with name x[y], where x = m.Name, and y is an arbitrary key provided by the request.
@@ -110,21 +101,21 @@ func (m *Map) ExtractFormValue(form url.Values) {
 // Validate performs some basic checks on m.Entries
 // according to given settings.
 //
-// An error will be returned, and m.Error set, if any of m.MaxEntries, m.MaxKeyLength, m.MaxValueLength, or m.MaxValues are violated.
+// An error will be returned, and m.Error set, if any of m.MaxEntries, m.MaxLength, or m.MaxValues are violated.
 func (m *Map) Validate() (err error) {
 	for k, v := range m.Entries {
-		if m.MaxKeyLength > 0 && len(k) > m.MaxKeyLength {
-			err = ErrMapMaxKeyLength{m.MaxKeyLength}
-		}
 		if m.MaxValues > 0 && len(v) > m.MaxValues {
-			err = ErrMapMaxLength{m.MaxValues}
+			err = ErrMapMaxValues{
+				Key:       k,
+				MaxLength: m.MaxValues,
+			}
 		}
-		if m.MaxValueLength > 0 {
+		if m.MaxLength > 0 {
 			for _, val := range v {
-				if len(val) > m.MaxValueLength {
-					err = ErrMapMaxValueLength{
-						Key:            k,
-						MaxValueLength: m.MaxValueLength,
+				if len(k)+len(val) > m.MaxLength {
+					err = ErrMapMaxLength{
+						Key:       k,
+						MaxLength: m.MaxLength,
 					}
 				}
 			}
@@ -132,7 +123,7 @@ func (m *Map) Validate() (err error) {
 	}
 
 	if m.MaxEntries > 0 && len(m.Entries) > m.MaxEntries {
-		err = ErrMapMax{m.MaxEntries}
+		err = ErrMapMaxEntries{m.MaxEntries}
 	}
 
 	if err != nil {
@@ -158,14 +149,11 @@ func (m Map) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 	if m.MaxEntries > 0 {
 		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxentries"}, Value: fmt.Sprintf("%d", m.MaxEntries)})
 	}
-	if m.MaxKeyLength > 0 {
-		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxkeylength"}, Value: fmt.Sprintf("%d", m.MaxKeyLength)})
-	}
 	if m.MaxValues > 0 {
 		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxvalues"}, Value: fmt.Sprintf("%d", m.MaxValues)})
 	}
-	if m.MaxValueLength > 0 {
-		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxvaluelength"}, Value: fmt.Sprintf("%d", m.MaxValueLength)})
+	if m.MaxLength > 0 {
+		inner.Attr = append(inner.Attr, xml.Attr{Name: xml.Name{Local: "maxlength"}, Value: fmt.Sprintf("%d", m.MaxLength)})
 	}
 
 	if err := e.EncodeToken(inner); err != nil {

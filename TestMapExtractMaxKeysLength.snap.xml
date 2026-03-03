@@ -1,6 +1,6 @@
 <c:Label>
-  <c:Map name="foo" maxkeylength="256">
-    <c:Error>contains a key longer than 256 char(s)</c:Error>
+  <c:Map name="foo" maxlength="256">
+    <c:Error>contains an entry longer than 256 char(s)</c:Error>
     <c:Input name="foo[barbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbaz]" value="two"></c:Input>
   </c:Map>
 </c:Label>
