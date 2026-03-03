@@ -14,13 +14,13 @@
   {
     "Type": "number",
     "Value": "123",
-    "Error": "must be greater than 1000",
+    "Error": "must be at least 1000",
     "Min": "1000"
   },
   {
     "Type": "number",
     "Value": "1000",
-    "Error": "must be less than or equal to 123",
+    "Error": "must be at most 123",
     "Max": "123"
   },
   {
@@ -56,13 +56,13 @@
   {
     "Type": "",
     "Value": "def",
-    "Error": "must be less than or equal to abc",
+    "Error": "must be at most abc",
     "Max": "abc"
   },
   {
     "Type": "",
     "Value": "abc",
-    "Error": "must be greater than def",
+    "Error": "must be at least def",
     "Min": "def"
   },
   {

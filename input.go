@@ -121,7 +121,7 @@ type ErrInputMax struct {
 }
 
 func (e ErrInputMax) Error() string {
-	return fmt.Sprintf("must be less than or equal to %s", e.Max)
+	return fmt.Sprintf("must be at most %s", e.Max)
 }
 
 type ErrInputMin struct {
@@ -129,7 +129,7 @@ type ErrInputMin struct {
 }
 
 func (e ErrInputMin) Error() string {
-	return fmt.Sprintf("must be greater than %s", e.Min)
+	return fmt.Sprintf("must be at least %s", e.Min)
 }
 
 type ErrInputMaxLength struct {
