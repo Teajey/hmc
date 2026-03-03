@@ -45,8 +45,8 @@ func TestMapExtractMaxLength(t *testing.T) {
 
 func TestMapExtractMaxKeysLength(t *testing.T) {
 	s := hmc.Map{
-		Name:         "foo",
-		MaxKeyLength: 256,
+		Name:      "foo",
+		MaxLength: 256,
 	}
 
 	form := url.Values{
