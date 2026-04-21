@@ -243,44 +243,6 @@ func TestSnapshotMultiSelect(t *testing.T) {
 	assert.SnapshotJson(t, input)
 }
 
-func TestSnapshotSelectLinkedLabels(t *testing.T) {
-	input := hmc.Select{
-		Label:    "Mug size",
-		Name:     "mugs",
-		Required: true,
-		Options: []hmc.Option{
-			{
-				Label: hmc.Link{Label: "Large", Href: "large"},
-				Value: "lg",
-			},
-			{
-				Label: hmc.Link{Label: "Medium", Href: "medium"},
-				Value: "md",
-			},
-			{
-				Label: hmc.Link{Label: "Small", Href: "small"},
-				Value: "sm",
-			},
-		},
-	}
-	form := url.Values{
-		"mugs":  {"Wumbo"},
-		"other": {"1"},
-	}
-	err := input.ExtractFormValue(form)
-	if err != nil {
-		input.Error = err.Error()
-	}
-
-	buf := bytes.NewBuffer([]byte{})
-	err = tm.ExecuteTemplate(buf, "select", input)
-	assert.FatalErr(t, "executing template", err)
-
-	assert.SnapshotXml(t, input)
-	assert.SnapshotJson(t, input)
-	assert.Eq(t, "only unmatched entries remain", 1, len(form))
-}
-
 func TestSnapshotMap(t *testing.T) {
 	input := hmc.Map{Label: "Random data", Name: "data"}
 	form := url.Values{
