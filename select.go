@@ -9,11 +9,7 @@ import (
 )
 
 type Option struct {
-	// Label provides human-readable information about what this Option is.
-	//
-	// By default, it should be a string, but it is allowed to be any serializable type, especially when the label requires extra semantics, such as links.
-	// This is an exception made exclusively for Option because it cannot otherwise be trivially extended.
-	Label    any    `json:"label,omitempty"`
+	Label    string `json:"label,omitempty"`
 	Value    string `json:"value"`
 	Selected bool   `json:"selected,omitempty"`
 	Disabled bool   `json:"disabled,omitempty"`
@@ -27,8 +23,8 @@ func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	if o.Disabled {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}})
 	}
-	label := cmp.Or(o.Label, any(o.Value))
-	if o.Label != nil {
+	label := cmp.Or(o.Label, o.Value)
+	if o.Label != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: o.Value})
 	}
 
@@ -36,15 +32,8 @@ func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return nil
 	}
 
-	labelStr, ok := label.(string)
-	if ok {
-		if err := e.EncodeToken(xml.CharData(labelStr)); err != nil {
-			return err
-		}
-	} else {
-		if err := e.Encode(label); err != nil {
-			return err
-		}
+	if err := e.EncodeToken(xml.CharData(label)); err != nil {
+		return err
 	}
 
 	if err := e.EncodeToken(start.End()); err != nil {
