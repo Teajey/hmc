@@ -107,7 +107,7 @@ func (s Select) Values() iter.Seq[string] {
 			if !o.Selected || o.Disabled {
 				continue
 			}
-			if !yield(o.Value) || !s.Multiple {
+			if !yield(o.Value) {
 				return
 			}
 		}
