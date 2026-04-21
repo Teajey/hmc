@@ -44,9 +44,9 @@ func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 }
 
 type Select struct {
-	Label    string   `json:"label,omitempty"`
+	Label    string   `json:"label"`
 	Multiple bool     `json:"multiple,omitempty"`
-	Name     string   `json:"name,omitempty"`
+	Name     string   `json:"name"`
 	Error    string   `json:"error,omitempty"`
 	Required bool     `json:"required,omitempty"`
 	Options  []Option `json:"options"`
