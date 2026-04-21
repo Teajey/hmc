@@ -33,6 +33,7 @@ func (i Input) MarshalJSON() ([]byte, error) {
 	if i.Disabled {
 		j := inputJsonDisabled{
 			Label:    i.Label,
+			Name:     i.Name,
 			Disabled: true,
 		}
 		return json.Marshal(j)
@@ -57,6 +58,7 @@ func (i Input) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 	input := xml.StartElement{Name: xml.Name{Local: "c:Input"}}
 
 	if i.Disabled {
+		input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
 		input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}, Value: "true"})
 	} else {
 		if i.Type != "" {
