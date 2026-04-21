@@ -98,13 +98,11 @@ func (s *Select) SetValues(values ...string) (err error) {
 
 // Values returns a iterator of the values of all selected non-disabled options.
 //
-// If o.Multiple is false, only the first selected value is returned.
-//
 // See also Value() for easily getting just the first selected value.
 func (s Select) Values() iter.Seq[string] {
 	return iter.Seq[string](func(yield func(string) bool) {
 		for _, o := range s.Options {
-			if !o.Selected || o.Disabled {
+			if !o.Selected || o.Disabled || o.Value == "" {
 				continue
 			}
 			if !yield(o.Value) {
