@@ -17,5 +17,6 @@ type inputJson struct {
 
 type inputJsonDisabled struct {
 	Label    string `json:"label"`
+	Name     string `json:"name"`
 	Disabled bool   `json:"disabled"`
 }
