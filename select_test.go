@@ -22,7 +22,7 @@ func TestSelectValues(t *testing.T) {
 	values := slices.Collect(s.Values())
 	value := s.Value()
 
-	assert.SlicesEq(t, "expected values", []string{"two"}, values)
+	assert.SlicesEq(t, "expected values", []string{"two", "three"}, values)
 	assert.Eq(t, "first value", "two", value)
 }
 
