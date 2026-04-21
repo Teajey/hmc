@@ -61,6 +61,7 @@ type Select struct {
 	Error    string   `json:"error,omitempty"`
 	Required bool     `json:"required,omitempty"`
 	Options  []Option `json:"options"`
+	Disabled bool     `json:"disabled,omitempty"`
 }
 
 type ErrSelectHasNonOption struct{}
@@ -129,6 +130,9 @@ func (s Select) Value() string {
 // in s.Options; but it is safe to ignore this error if unlisted
 // selections are allowed. See [Select.SetValues]
 func (s *Select) ExtractFormValue(form url.Values) (err error) {
+	if s.Disabled {
+		return
+	}
 	formValue, ok := form[s.Name]
 	if !ok {
 		return
@@ -159,12 +163,16 @@ func (i Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 
 	sel := xml.StartElement{Name: xml.Name{Local: "c:Select"}}
 
-	if i.Multiple {
-		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "multiple"}, Value: "true"})
-	}
-	sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
-	if i.Required {
-		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+	if i.Disabled {
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+	} else {
+		if i.Multiple {
+			sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "multiple"}, Value: "true"})
+		}
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+		if i.Required {
+			sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
+		}
 	}
 
 	if err := e.EncodeToken(sel); err != nil {
