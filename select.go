@@ -17,15 +17,15 @@ type Option struct {
 
 func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start = xml.StartElement{Name: xml.Name{Local: "c:Option"}}
-	if o.Selected {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "selected"}})
-	}
 	if o.Disabled {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}})
 	}
 	label := cmp.Or(o.Label, o.Value)
 	if o.Label != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: o.Value})
+	}
+	if o.Selected {
+		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "selected"}})
 	}
 
 	if err := e.EncodeToken(start); err != nil {
