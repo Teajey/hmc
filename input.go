@@ -200,10 +200,6 @@ func (p *Input) Validate() (err error) {
 		err = ErrInputMinLength{p.MinLength}
 	}
 
-	if err != nil {
-		p.Error = err.Error()
-	}
-
 	return
 }
 
@@ -247,7 +243,6 @@ func (i *Input) ParseValueAsTime() (t time.Time, err error) {
 	err = ErrInputValueAsTime{
 		err,
 	}
-	i.Error = err.Error()
 	return
 }
 
@@ -273,7 +268,6 @@ func (i *Input) ParseValueAsDate() (t time.Time, err error) {
 	err = ErrInputValueAsDate{
 		err,
 	}
-	i.Error = err.Error()
 	return
 }
 
@@ -301,7 +295,6 @@ func (i *Input) ParseValueAsDatetime() (t time.Time, err error) {
 	err = ErrInputValueAsDatetime{
 		err,
 	}
-	i.Error = err.Error()
 	return
 }
 
@@ -327,6 +320,5 @@ func (i *Input) ParseValueAsDatetimeLocal() (t time.Time, err error) {
 	err = ErrInputValueAsDatetimeLocal{
 		err,
 	}
-	i.Error = err.Error()
 	return
 }
