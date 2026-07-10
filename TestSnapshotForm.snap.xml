@@ -21,7 +21,7 @@
           <c:Option>vegetables</c:Option>
           <c:Option>meat</c:Option>
           <c:Option>fish</c:Option>
-          <c:Option selected="" value="bugs">Bugs</c:Option>
+          <c:Option value="bugs" selected="">Bugs</c:Option>
         </c:Select>
       </c:Label>
       <c:Label>Any other arbitrary information you wanna provide?
