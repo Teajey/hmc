@@ -229,6 +229,10 @@ func (e ErrInputValueAsTime) Error() string {
 	return "not a valid time"
 }
 
+func (e ErrInputValueAsTime) Unwrap() error {
+	return e.Err
+}
+
 // ParseValueAsTime parses i.Value as `type="time"`. An ISO 8601 time.
 //
 // [Input.Type] is not checked here.
@@ -252,6 +256,10 @@ type ErrInputValueAsDate struct {
 
 func (e ErrInputValueAsDate) Error() string {
 	return "not a valid date"
+}
+
+func (e ErrInputValueAsDate) Unwrap() error {
+	return e.Err
 }
 
 // ParseValueAsDate parses i.Value as `type="date"`. An ISO 8601 date.
@@ -279,6 +287,10 @@ func (e ErrInputValueAsDatetime) Error() string {
 	return "not a valid datetime"
 }
 
+func (e ErrInputValueAsDatetime) Unwrap() error {
+	return e.Err
+}
+
 // ParseValueAsDatetime parses i.Value as `type="datetime"`. An ISO 8601 datetime that expects a timezone.
 //
 // WARNING: This is not widely supported by browsers.
@@ -304,6 +316,10 @@ type ErrInputValueAsDatetimeLocal struct {
 
 func (e ErrInputValueAsDatetimeLocal) Error() string {
 	return "not a valid datetime-local"
+}
+
+func (e ErrInputValueAsDatetimeLocal) Unwrap() error {
+	return e.Err
 }
 
 // ParseValueAsDatetimeLocal parses i.Value as `type="datetime-local"`. An ISO 8601 datetime without a timezone.
