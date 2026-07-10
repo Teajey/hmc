@@ -126,10 +126,6 @@ func (m *Map) Validate() (err error) {
 		err = ErrMapMaxEntries{m.MaxEntries}
 	}
 
-	if err != nil {
-		m.Error = err.Error()
-	}
-
 	return
 }
 
