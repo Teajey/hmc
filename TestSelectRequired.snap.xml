@@ -1,0 +1,9 @@
+<c:Label>
+  <c:Select name="myval" required="true">
+    <c:Error>value is required</c:Error>
+    <c:Option>one</c:Option>
+    <c:Option>two</c:Option>
+    <c:Option>three</c:Option>
+    <c:Option disabled="">four</c:Option>
+  </c:Select>
+</c:Label>

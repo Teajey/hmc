@@ -1,6 +1,7 @@
 package hmc_test
 
 import (
+	"log"
 	"net/url"
 	"slices"
 	"testing"
@@ -103,4 +104,34 @@ func TestSelectMultipleExtract(t *testing.T) {
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
+}
+
+func TestSelectRequired(t *testing.T) {
+	s := hmc.Select{
+		Name:     "myval",
+		Required: true,
+		Options: []hmc.Option{
+			{Value: "one"},
+			{Value: "two"},
+			{Value: "three"},
+			{Value: "four", Disabled: true},
+		},
+	}
+
+	form := url.Values{
+		"mynotval": {"two", "three"},
+	}
+
+	err := s.ExtractFormValue(form)
+	if err != nil {
+		s.Error = err.Error()
+	}
+	err = s.Validate()
+	if err != nil {
+		log.Println("Yes this line is running")
+		s.Error = err.Error()
+	}
+
+	assert.SnapshotXml(t, s)
+	assert.Eq(t, "form contains leftovers", 1, len(form))
 }
