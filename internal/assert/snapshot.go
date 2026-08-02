@@ -25,6 +25,7 @@ func ensureSuffix(s, suffix []byte) []byte {
 }
 
 func writeSnapshot(t *testing.T, path string, actual []byte) {
+	t.Helper()
 	f, err := os.Create(path)
 	if err != nil {
 		t.Fatalf("Failed to create snapshot file: %s", err)
@@ -40,7 +41,10 @@ func writeSnapshot(t *testing.T, path string, actual []byte) {
 }
 
 func Snapshot(t *testing.T, path string, actual []byte) {
+	t.Helper()
+
 	actual = ensureSuffix(actual, newline)
+
 	if !pathExists(path) {
 		writeSnapshot(t, path, actual)
 		t.Errorf("Snapshot file created: %s", path)
@@ -54,11 +58,9 @@ func Snapshot(t *testing.T, path string, actual []byte) {
 
 	expected = ensureSuffix(expected, newline)
 
-	if bytes.Equal(expected, actual) {
-		return
+	if !bytes.Equal(expected, actual) {
+		t.Errorf("Value doesn't match snapshot %s:\n\nExpected:\n%s\n\nActual:\n%s\n", path, string(expected), string(actual))
 	}
-
-	t.Errorf("Value doesn't match snapshot %s:\n\nExpected:\n%s\n\nActual:\n%s\n", path, string(expected), string(actual))
 
 	if os.Getenv("UPDATE_SNAPSHOTS") == "" {
 		return
@@ -69,10 +71,12 @@ func Snapshot(t *testing.T, path string, actual []byte) {
 }
 
 func SnapshotText(t *testing.T, actual string) {
+	t.Helper()
 	Snapshot(t, fmt.Sprintf("%s.snap.txt", t.Name()), []byte(actual))
 }
 
 func SnapshotJson(t *testing.T, actual any) {
+	t.Helper()
 	data, err := json.MarshalIndent(actual, "", "  ")
 	if err != nil {
 		t.Fatalf("Snapshot failed to serialize actual to JSON: %s", err)
@@ -81,6 +85,7 @@ func SnapshotJson(t *testing.T, actual any) {
 }
 
 func SnapshotXml(t *testing.T, actual any) {
+	t.Helper()
 	data, err := xml.MarshalIndent(actual, "", "  ")
 	if err != nil {
 		t.Fatalf("Snapshot failed to serialize actual to XML: %s", err)
