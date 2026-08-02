@@ -60,7 +60,9 @@ func TestSelectExtract(t *testing.T) {
 		"myval": {"two", "three"},
 	}
 
-	_ = s.ExtractFormValue(form)
+	if err := s.ExtractFormValue(form); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form contains leftovers", 1, len(form))
@@ -79,7 +81,9 @@ func TestSelectExtractEmpty(t *testing.T) {
 
 	form := url.Values{}
 
-	_ = s.ExtractFormValue(form)
+	if err := s.ExtractFormValue(form); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 }
@@ -100,7 +104,9 @@ func TestSelectMultipleExtract(t *testing.T) {
 		"myval": {"two", "three"},
 	}
 
-	_ = s.ExtractFormValue(form)
+	if err := s.ExtractFormValue(form); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
