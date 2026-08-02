@@ -54,6 +54,14 @@ func (l *login) Validate() {
 	if err != nil {
 		l.ConfirmPassword.Error = err.Error()
 	}
+	err = l.FavouriteFood.Validate()
+	if err != nil {
+		l.FavouriteFood.Error = err.Error()
+	}
+	err = l.Misc.Validate()
+	if err != nil {
+		l.Misc.Error = err.Error()
+	}
 }
 
 func TestSnapshotForm(t *testing.T) {
