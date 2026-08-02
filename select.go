@@ -111,6 +111,19 @@ func (s Select) Value() string {
 	return val
 }
 
+// Validate performs some basic checks on p according to its settings.
+//
+// It currently only checks p.Required.
+//
+// An error will be returned if p.Value() == "" when p.Required == true
+func (p *Select) Validate() (err error) {
+	if p.Required && p.Value() == "" {
+		err = ErrInputRequired{}
+	}
+
+	return
+}
+
 // ExtractFormValue behaves similarly to [Input.ExtractFormValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
 //
 // An error is returned if a value is extracted that is not listed
