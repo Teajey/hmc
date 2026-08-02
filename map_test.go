@@ -20,7 +20,9 @@ func TestMapExtractMax(t *testing.T) {
 	}
 
 	s.ExtractFormValue(form)
-	_ = s.Validate()
+	if err := s.Validate(); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
@@ -37,7 +39,9 @@ func TestMapExtractMaxLength(t *testing.T) {
 	}
 
 	s.ExtractFormValue(form)
-	_ = s.Validate()
+	if err := s.Validate(); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))
@@ -54,7 +58,9 @@ func TestMapExtractMaxKeysLength(t *testing.T) {
 	}
 
 	s.ExtractFormValue(form)
-	_ = s.Validate()
+	if err := s.Validate(); err != nil {
+		s.Error = err.Error()
+	}
 
 	assert.SnapshotXml(t, s)
 	assert.Eq(t, "form empty", 0, len(form))

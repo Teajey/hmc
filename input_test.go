@@ -88,7 +88,9 @@ func TestInputValidation(t *testing.T) {
 	}
 	formatInputs := make([]formatted, len(inputs))
 	for i := range inputs {
-		_ = inputs[i].Validate()
+		if err := inputs[i].Validate(); err != nil {
+			inputs[i].Error = err.Error()
+		}
 		formatInputs[i] = formatted(inputs[i])
 	}
 	assert.SnapshotJson(t, formatInputs)
@@ -98,7 +100,10 @@ func TestInputInvalidDate(t *testing.T) {
 	input := hmc.Input{
 		Value: "abc",
 	}
-	val, _ := input.ParseValueAsDate()
+	val, err := input.ParseValueAsDate()
+	if err != nil {
+		input.Error = err.Error()
+	}
 	assert.True(t, "result is unset", val.IsZero())
 	assert.SnapshotJson(t, formatted(input))
 }
@@ -107,7 +112,10 @@ func TestInputInvalidTime(t *testing.T) {
 	input := hmc.Input{
 		Value: "abc",
 	}
-	val, _ := input.ParseValueAsTime()
+	val, err := input.ParseValueAsTime()
+	if err != nil {
+		input.Error = err.Error()
+	}
 	assert.True(t, "result is unset", val.IsZero())
 	assert.SnapshotJson(t, formatted(input))
 }
@@ -116,7 +124,10 @@ func TestInputInvalidDatetime(t *testing.T) {
 	input := hmc.Input{
 		Value: "abc",
 	}
-	val, _ := input.ParseValueAsDatetime()
+	val, err := input.ParseValueAsDatetime()
+	if err != nil {
+		input.Error = err.Error()
+	}
 	assert.True(t, "result is unset", val.IsZero())
 	assert.SnapshotJson(t, formatted(input))
 }
@@ -125,7 +136,10 @@ func TestInputInvalidDatetimeLocal(t *testing.T) {
 	input := hmc.Input{
 		Value: "abc",
 	}
-	val, _ := input.ParseValueAsDatetimeLocal()
+	val, err := input.ParseValueAsDatetimeLocal()
+	if err != nil {
+		input.Error = err.Error()
+	}
 	assert.True(t, "result is unset", val.IsZero())
 	assert.SnapshotJson(t, formatted(input))
 }
