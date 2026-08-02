@@ -101,7 +101,7 @@ func (m *Map) ExtractFormValue(form url.Values) {
 // Validate performs some basic checks on m.Entries
 // according to given settings.
 //
-// An error will be returned, and m.Error set, if any of m.MaxEntries, m.MaxLength, or m.MaxValues are violated.
+// An error will be returned, if any of m.MaxEntries, m.MaxLength, or m.MaxValues are violated.
 func (m *Map) Validate() (err error) {
 	for k, v := range m.Entries {
 		if m.MaxValues > 0 && len(v) > m.MaxValues {
