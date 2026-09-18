@@ -51,6 +51,39 @@
           }
         ]
       },
+      "LikesMovies": {
+        "label": "Do you like movies?",
+        "type": "checkbox",
+        "name": "likes",
+        "value": "movies",
+        "checked": true
+      },
+      "LikesMusic": {
+        "label": "Do you like music?",
+        "type": "checkbox",
+        "name": "likes",
+        "value": "music",
+        "checked": true
+      },
+      "LikesGames": {
+        "label": "Do you like games?",
+        "type": "checkbox",
+        "name": "likes",
+        "value": "games"
+      },
+      "TermsAndConds": {
+        "label": "Do you agree to our terms?",
+        "type": "checkbox",
+        "name": "terms",
+        "value": "agreed",
+        "checked": true
+      },
+      "NewsLetter": {
+        "label": "Do you want our newsletter?",
+        "type": "checkbox",
+        "name": "newsletter",
+        "value": "yes"
+      },
       "Misc": {
         "label": "Any other arbitrary information you wanna provide?",
         "name": "misc",

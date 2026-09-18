@@ -24,6 +24,21 @@
           <c:Option value="bugs" selected="">Bugs</c:Option>
         </c:Select>
       </c:Label>
+      <c:Label>Do you like movies?
+        <c:Input type="checkbox" name="likes" value="movies" checked="true"></c:Input>
+      </c:Label>
+      <c:Label>Do you like music?
+        <c:Input type="checkbox" name="likes" value="music" checked="true"></c:Input>
+      </c:Label>
+      <c:Label>Do you like games?
+        <c:Input type="checkbox" name="likes" value="games"></c:Input>
+      </c:Label>
+      <c:Label>Do you agree to our terms?
+        <c:Input type="checkbox" name="terms" value="agreed" checked="true"></c:Input>
+      </c:Label>
+      <c:Label>Do you want our newsletter?
+        <c:Input type="checkbox" name="newsletter" value="yes"></c:Input>
+      </c:Label>
       <c:Label>Any other arbitrary information you wanna provide?
         <c:Map name="misc">
           <c:Input name="misc[iq]" value="80"></c:Input>

@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"maps"
 	"net/url"
+	"slices"
 	"testing"
 
 	"github.com/Teajey/hmc"
@@ -29,6 +31,11 @@ type login struct {
 	Password        hmc.Input
 	ConfirmPassword hmc.Input
 	FavouriteFood   hmc.Select
+	LikesMovies     hmc.Input
+	LikesMusic      hmc.Input
+	LikesGames      hmc.Input
+	TermsAndConds   hmc.Input
+	NewsLetter      hmc.Input
 	Misc            hmc.Map
 	Login           hmc.Link `json:"LoginLink"`
 }
@@ -38,6 +45,11 @@ func (l *login) ExtractValues(form url.Values) {
 	l.Password.ExtractFormValue(form)
 	l.ConfirmPassword.ExtractFormValue(form)
 	_ = l.FavouriteFood.ExtractFormValue(form)
+	l.LikesGames.ExtractFormValue(form)
+	l.LikesMovies.ExtractFormValue(form)
+	l.LikesMusic.ExtractFormValue(form)
+	l.TermsAndConds.ExtractFormValue(form)
+	l.NewsLetter.ExtractFormValue(form)
 	l.Misc.ExtractFormValue(form)
 }
 
@@ -57,6 +69,26 @@ func (l *login) Validate() {
 	err = l.FavouriteFood.Validate()
 	if err != nil {
 		l.FavouriteFood.Error = err.Error()
+	}
+	err = l.LikesMovies.Validate()
+	if err != nil {
+		l.LikesMovies.Error = err.Error()
+	}
+	err = l.LikesMusic.Validate()
+	if err != nil {
+		l.LikesMusic.Error = err.Error()
+	}
+	err = l.LikesGames.Validate()
+	if err != nil {
+		l.LikesGames.Error = err.Error()
+	}
+	err = l.TermsAndConds.Validate()
+	if err != nil {
+		l.TermsAndConds.Error = err.Error()
+	}
+	err = l.NewsLetter.Validate()
+	if err != nil {
+		l.NewsLetter.Error = err.Error()
 	}
 	err = l.Misc.Validate()
 	if err != nil {
@@ -101,6 +133,37 @@ func TestSnapshotForm(t *testing.T) {
 					},
 					Required: true,
 				},
+				LikesMovies: hmc.Input{
+					Label: "Do you like movies?",
+					Type:  "checkbox",
+					Name:  "likes",
+					Value: "movies",
+				},
+				LikesMusic: hmc.Input{
+					Label: "Do you like music?",
+					Type:  "checkbox",
+					Name:  "likes",
+					Value: "music",
+				},
+				LikesGames: hmc.Input{
+					Label: "Do you like games?",
+					Type:  "checkbox",
+					Name:  "likes",
+					Value: "games",
+				},
+				TermsAndConds: hmc.Input{
+					Label: "Do you agree to our terms?",
+					Type:  "checkbox",
+					Name:  "terms",
+					Value: "agreed",
+				},
+				NewsLetter: hmc.Input{
+					Label:   "Do you want our newsletter?",
+					Type:    "checkbox",
+					Name:    "newsletter",
+					Value:   "yes",
+					Checked: true,
+				},
 				Misc: hmc.Map{
 					Label: "Any other arbitrary information you wanna provide?",
 					Name:  "misc",
@@ -118,6 +181,8 @@ func TestSnapshotForm(t *testing.T) {
 		"password":         {"123456"},
 		"confirm_password": {"123456"},
 		"favFood":          {"bugs"},
+		"likes":            {"music", "movies"},
+		"terms":            {"agreed"},
 		"misc[iq]":         {"80"},
 	}
 	page.Form.Elements.ExtractValues(form)
@@ -125,7 +190,7 @@ func TestSnapshotForm(t *testing.T) {
 
 	assert.SnapshotXml(t, page)
 	assert.SnapshotJson(t, page)
-	assert.Eq(t, "only unmatched entries remain", 2, len(form))
+	assert.SlicesEq(t, "only unmatched entries remain", []string{"username", "confirm_password"}, slices.Collect(maps.Keys(form)))
 }
 
 func TestSnapshotLink(t *testing.T) {

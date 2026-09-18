@@ -5,6 +5,7 @@ type inputJson struct {
 	Type      string  `json:"type,omitempty"`
 	Name      string  `json:"name"`
 	Value     string  `json:"value"`
+	Checked   bool    `json:"checked,omitempty"`
 	Error     string  `json:"error,omitempty"`
 	Required  bool    `json:"required,omitempty"`
 	Disabled  bool    `json:"-"`
