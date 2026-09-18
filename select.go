@@ -17,15 +17,15 @@ type Option struct {
 
 func (o Option) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start = xml.StartElement{Name: xml.Name{Local: "c:Option"}}
-	if o.Selected {
-		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "selected"}})
-	}
 	if o.Disabled {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "disabled"}})
 	}
 	label := cmp.Or(o.Label, o.Value)
 	if o.Label != "" {
 		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: o.Value})
+	}
+	if o.Selected {
+		start.Attr = append(start.Attr, xml.Attr{Name: xml.Name{Local: "selected"}})
 	}
 
 	if err := e.EncodeToken(start); err != nil {
@@ -109,6 +109,28 @@ func (s Select) Value() string {
 	defer stop()
 	val, _ := next()
 	return val
+}
+
+// Validate performs some basic checks on p according to its settings. It is similar to [Input.Validate].
+//
+// It currently only checks p.Required.
+//
+// An error will be returned, and p.Error set, if p.Value() == "" when p.Required == true
+func (p *Select) Validate() error {
+	err := p.getError()
+	if err != nil {
+		p.Error = err.Error()
+	}
+	return err
+}
+
+// getError returns the same error that p.Validate would without setting p.Error
+func (p *Select) getError() error {
+	if p.Required && p.Value() == "" {
+		return ErrInputRequired{}
+	}
+
+	return nil
 }
 
 // ExtractFormValue behaves similarly to [Input.ExtractFormValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
