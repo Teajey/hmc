@@ -180,9 +180,20 @@ func (p *Input) cmpLess(x, y string) bool {
 // Input.ParseValueAs* method is called, although again, [Input.Type] is not checked, and any parse method may be called regardless of the type attribute.
 // It is your responsibility to make sure that [Input.Type] is set according to how it is parsed.
 //
+// If there is an error, i.Error will be set with it's string value.
+//
 // This functionality can be extended with more bespoke validation by
 // checking fields and setting the [Input.Error] field accordingly.
 func (i *Input) Validate() error {
+	err := i.getError()
+	if err != nil {
+		i.Error = err.Error()
+	}
+	return err
+}
+
+// getError returns the same error that i.Validate would without setting i.Error
+func (i *Input) getError() error {
 	if i.Type == "checkbox" || i.Type == "radio" {
 		if i.Required && !i.Checked {
 			return ErrInputRequired{}

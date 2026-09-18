@@ -99,13 +99,22 @@ func (m *Map) ExtractFormValue(form url.Values) {
 }
 
 // Validate performs some basic checks on m.Entries
-// according to given settings.
+// according to given settings. It is similar to [Input.Validate].
 //
-// An error will be returned, if any of m.MaxEntries, m.MaxLength, or m.MaxValues are violated.
-func (m *Map) Validate() (err error) {
+// An error will be returned, and m.Error set, if any of m.MaxEntries, m.MaxLength, or m.MaxValues are violated.
+func (m *Map) Validate() error {
+	err := m.getError()
+	if err != nil {
+		m.Error = err.Error()
+	}
+	return err
+}
+
+// getError returns the same error m.Validate would without setting m.Error
+func (m *Map) getError() error {
 	for k, v := range m.Entries {
 		if m.MaxValues > 0 && len(v) > m.MaxValues {
-			err = ErrMapMaxValues{
+			return ErrMapMaxValues{
 				Key:       k,
 				MaxLength: m.MaxValues,
 			}
@@ -113,7 +122,7 @@ func (m *Map) Validate() (err error) {
 		if m.MaxLength > 0 {
 			for _, val := range v {
 				if len(k)+len(val) > m.MaxLength {
-					err = ErrMapMaxLength{
+					return ErrMapMaxLength{
 						Key:       k,
 						MaxLength: m.MaxLength,
 					}
@@ -123,10 +132,10 @@ func (m *Map) Validate() (err error) {
 	}
 
 	if m.MaxEntries > 0 && len(m.Entries) > m.MaxEntries {
-		err = ErrMapMaxEntries{m.MaxEntries}
+		return ErrMapMaxEntries{m.MaxEntries}
 	}
 
-	return
+	return nil
 }
 
 func (m Map) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
