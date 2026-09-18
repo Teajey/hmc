@@ -13,6 +13,7 @@ type formatted struct {
 	Type      string
 	Name      string `json:"-"`
 	Value     string
+	Checked   bool `json:",omitempty"`
 	Error     string
 	Required  bool    `json:",omitempty"`
 	Disabled  bool    `json:",omitempty"`

@@ -6,8 +6,10 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
+	"slices"
 	"strconv"
 	"time"
+	"unicode/utf8"
 )
 
 // Input describes a piece of data the server needs from the client,
@@ -19,6 +21,7 @@ type Input struct {
 	Type      string
 	Name      string
 	Value     string
+	Checked   bool
 	Error     string
 	Required  bool
 	Disabled  bool
@@ -69,6 +72,9 @@ func (i Input) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: "********"})
 		} else {
 			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "value"}, Value: i.Value})
+		}
+		if i.Checked {
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "checked"}, Value: "true"})
 		}
 		if i.MinLength > 0 {
 			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "minlength"}, Value: fmt.Sprintf("%d", i.MinLength)})
@@ -166,7 +172,7 @@ func (p *Input) cmpLess(x, y string) bool {
 // of the input according to its settings.
 //
 // [Input.Required], [Input.Max], [Input.Min], [Input.MaxLength], and [Input.MinLength] are checked, in that order. Similar to the minimal
-// checks that a browser would make for equivalent HTML.
+// checks that a browser would make for equivalent HTML. If the type is "checkbox" or "radio" only [Input.Required] is checked.
 //
 // Because it is complex to implement for whatever many types [Input.Type] might be set to, this function does not validate [Input.Step].
 //
@@ -176,47 +182,85 @@ func (p *Input) cmpLess(x, y string) bool {
 //
 // This functionality can be extended with more bespoke validation by
 // checking fields and setting the [Input.Error] field accordingly.
-func (p *Input) Validate() (err error) {
-	if p.Required && p.Value == "" {
-		err = ErrInputRequired{}
-	}
-
-	if p.Value != "" {
-		if p.Max != "" && p.cmpLess(p.Max, p.Value) {
-			err = ErrInputMax{p.Max}
+func (i *Input) Validate() error {
+	if i.Type == "checkbox" || i.Type == "radio" {
+		if i.Required && !i.Checked {
+			return ErrInputRequired{}
 		}
+		return nil
+	}
 
-		if p.Min != "" && p.cmpLess(p.Value, p.Min) {
-			err = ErrInputMin{p.Min}
+	if i.Value == "" {
+		if i.Required {
+			return ErrInputRequired{}
 		}
+		return nil
 	}
 
-	valueLen := len(p.Value)
-	if p.MaxLength > 0 && int(p.MaxLength) < valueLen {
-		err = ErrInputMaxLength{p.MaxLength}
+	if i.Max != "" && i.cmpLess(i.Max, i.Value) {
+		return ErrInputMax{i.Max}
+	}
+	if i.Min != "" && i.cmpLess(i.Value, i.Min) {
+		return ErrInputMin{i.Min}
 	}
 
-	if p.MinLength > 0 && valueLen < int(p.MinLength) {
-		err = ErrInputMinLength{p.MinLength}
+	valueLen := utf8.RuneCountInString(i.Value)
+	if i.MaxLength > 0 && valueLen > int(i.MaxLength) {
+		return ErrInputMaxLength{i.MaxLength}
+	}
+	if i.MinLength > 0 && valueLen < int(i.MinLength) {
+		return ErrInputMinLength{i.MinLength}
 	}
 
-	return
+	return nil
 }
 
-// ExtractFormValue sets i.Value to the first value found at form[i.Name].
-//
-// The found value is deleted from form.
+// popFirst removes and returns the first value stored at key.
+func popFirst(form url.Values, key string) (string, bool) {
+	vals, ok := form[key]
+	if !ok || len(vals) == 0 {
+		return "", false
+	}
+	setOrDelete(form, key, vals[1:])
+	return vals[0], true
+}
+
+// popValue removes the first occurrence of val stored at key.
+func popValue(form url.Values, key, val string) bool {
+	vals, ok := form[key]
+	if !ok {
+		return false
+	}
+	idx := slices.Index(vals, val)
+	if idx == -1 {
+		return false
+	}
+	remaining := slices.Concat(vals[:idx:idx], vals[idx+1:])
+	setOrDelete(form, key, remaining)
+	return true
+}
+
+func setOrDelete(form url.Values, key string, vals []string) {
+	if len(vals) == 0 {
+		delete(form, key)
+		return
+	}
+	form[key] = vals
+}
+
+// ExtractFormValue sets i.Value to the first value found at form[i.Name],
+// removing it from form. For checkboxes and radios it instead sets i.Checked
+// and removes the matching value.
 func (i *Input) ExtractFormValue(form url.Values) {
 	if i.Disabled {
 		return
 	}
-	formValue, ok := form[i.Name]
-	if ok {
-		i.Value = formValue[0]
-		if len(formValue[1:]) > 0 {
-			form[i.Name] = formValue[1:]
-		} else {
-			delete(form, i.Name)
+	switch i.Type {
+	case "checkbox", "radio":
+		i.Checked = popValue(form, i.Name, i.Value)
+	default:
+		if v, ok := popFirst(form, i.Name); ok {
+			i.Value = v
 		}
 	}
 }
