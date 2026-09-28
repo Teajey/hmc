@@ -1,7 +1,6 @@
 package hmc_test
 
 import (
-	"log"
 	"net/url"
 	"slices"
 	"testing"
@@ -134,7 +133,6 @@ func TestSelectRequired(t *testing.T) {
 	}
 	err = s.Validate()
 	if err != nil {
-		log.Println("Yes this line is running")
 		s.Error = err.Error()
 	}
 
