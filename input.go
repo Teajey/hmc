@@ -334,37 +334,6 @@ func (i *Input) ParseValueAsDate() (t time.Time, err error) {
 	return
 }
 
-type ErrInputValueAsDatetime struct {
-	Err error
-}
-
-func (e ErrInputValueAsDatetime) Error() string {
-	return "not a valid datetime"
-}
-
-func (e ErrInputValueAsDatetime) Unwrap() error {
-	return e.Err
-}
-
-// ParseValueAsDatetime parses i.Value as `type="datetime"`. An ISO 8601 datetime that expects a timezone.
-//
-// WARNING: This is not widely supported by browsers.
-//
-// [Input.Type] is not checked here.
-func (i *Input) ParseValueAsDatetime() (t time.Time, err error) {
-	if i.Value == "" {
-		return
-	}
-	t, err = time.Parse(time.RFC3339Nano, i.Value)
-	if err == nil {
-		return
-	}
-	err = ErrInputValueAsDatetime{
-		err,
-	}
-	return
-}
-
 type ErrInputValueAsDatetimeLocal struct {
 	Err error
 }

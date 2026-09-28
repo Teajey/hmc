@@ -121,18 +121,6 @@ func TestInputInvalidTime(t *testing.T) {
 	assert.SnapshotJson(t, formatted(input))
 }
 
-func TestInputInvalidDatetime(t *testing.T) {
-	input := hmc.Input{
-		Value: "abc",
-	}
-	val, err := input.ParseValueAsDatetime()
-	if err != nil {
-		input.Error = err.Error()
-	}
-	assert.True(t, "result is unset", val.IsZero())
-	assert.SnapshotJson(t, formatted(input))
-}
-
 func TestInputInvalidDatetimeLocal(t *testing.T) {
 	input := hmc.Input{
 		Value: "abc",
