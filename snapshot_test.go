@@ -190,7 +190,9 @@ func TestSnapshotForm(t *testing.T) {
 
 	assert.SnapshotXml(t, page)
 	assert.SnapshotJson(t, page)
-	assert.SlicesEq(t, "only unmatched entries remain", []string{"username", "confirm_password"}, slices.Collect(maps.Keys(form)))
+	unmatched := slices.Collect(maps.Keys(form))
+	slices.Sort(unmatched)
+	assert.SlicesEq(t, "only unmatched entries remain", []string{"confirm_password", "username"}, unmatched)
 }
 
 func TestSnapshotLink(t *testing.T) {
