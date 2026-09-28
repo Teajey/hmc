@@ -357,6 +357,14 @@ func (i *Input) ParseValueAsDatetimeLocal() (t time.Time, err error) {
 	if err == nil {
 		return
 	}
+	t, err = time.Parse("2006-01-02T15:04:05", i.Value)
+	if err == nil {
+		return
+	}
+	t, err = time.Parse("2006-01-02T15:04", i.Value)
+	if err == nil {
+		return
+	}
 	err = ErrInputValueAsDatetimeLocal{
 		err,
 	}
