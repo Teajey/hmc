@@ -12,6 +12,7 @@
 {{- if .MaxLength}} maxlength="{{.MaxLength}}" {{- end -}}
 {{- if .Max}} max="{{.Max}}" {{- end -}}
 {{- if .Min}} min="{{.Min}}" {{- end -}}
+{{- if .Pattern}} pattern="{{.Pattern}}" {{- end -}}
 {{- if .Step}} step="{{.Step}}" {{- end -}}
 {{- if .Error}} aria-invalid="true" aria-errormessage="{{.Name}}Error" {{- end -}}
 

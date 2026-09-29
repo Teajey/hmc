@@ -1,6 +1,7 @@
 package hmc_test
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/Teajey/hmc"
@@ -15,13 +16,14 @@ type formatted struct {
 	Value     string
 	Checked   bool `json:",omitempty"`
 	Error     string
-	Required  bool    `json:",omitempty"`
-	Disabled  bool    `json:",omitempty"`
-	MinLength uint    `json:",omitempty"`
-	MaxLength uint    `json:",omitempty"`
-	Step      float32 `json:",omitempty"`
-	Min       string  `json:",omitempty"`
-	Max       string  `json:",omitempty"`
+	Required  bool           `json:",omitempty"`
+	Disabled  bool           `json:",omitempty"`
+	MinLength uint           `json:",omitempty"`
+	MaxLength uint           `json:",omitempty"`
+	Step      float32        `json:",omitempty"`
+	Min       string         `json:",omitempty"`
+	Max       string         `json:",omitempty"`
+	Pattern   *regexp.Regexp `json:",omitempty"`
 }
 
 func TestInputValidation(t *testing.T) {

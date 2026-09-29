@@ -1,0 +1,9 @@
+{
+  "label": "Message",
+  "type": "text",
+  "name": "msg",
+  "value": "Hey...",
+  "error": "does not match pattern \\w\\.$",
+  "required": true,
+  "pattern": "\\w\\.$"
+}

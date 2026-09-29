@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"maps"
 	"net/url"
+	"regexp"
 	"slices"
 	"testing"
 
@@ -254,6 +255,27 @@ func TestSnapshotInputNoLabel(t *testing.T) {
 		MinLength: 3,
 		Error:     "This is a bad message",
 	}
+
+	buf := bytes.NewBuffer([]byte{})
+	err := tm.ExecuteTemplate(buf, "input", input)
+	assert.FatalErr(t, "executing template", err)
+
+	assert.Snapshot(t, fmt.Sprintf("%s.snap.html", t.Name()), buf.Bytes())
+	assert.SnapshotXml(t, input)
+	assert.SnapshotJson(t, input)
+}
+
+func TestSnapshotInputPattern(t *testing.T) {
+	input := hmc.Input{
+		Label:    "Message",
+		Type:     "text",
+		Name:     "msg",
+		Required: true,
+		Value:    "Hey...",
+		Pattern:  regexp.MustCompile(`\w\.$`),
+	}
+
+	_ = input.Validate()
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "input", input)
