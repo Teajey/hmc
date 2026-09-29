@@ -1,0 +1,5 @@
+<c:Label>Message
+  <c:Input type="text" name="msg" value="Hey..." pattern="\w\.$" required="true">
+    <c:Error>does not match pattern \w\.$</c:Error>
+  </c:Input>
+</c:Label>
