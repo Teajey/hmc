@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/url"
+	"regexp"
 	"slices"
 	"strconv"
 	"time"
@@ -30,6 +31,7 @@ type Input struct {
 	Step      float32
 	Min       string
 	Max       string
+	Pattern   *regexp.Regexp
 }
 
 func (i Input) MarshalJSON() ([]byte, error) {
@@ -91,6 +93,9 @@ func (i Input) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 		if i.Max != "" {
 			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "max"}, Value: i.Max})
 		}
+		if i.Pattern != nil {
+			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "pattern"}, Value: i.Pattern.String()})
+		}
 		if i.Required {
 			input.Attr = append(input.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
 		}
@@ -122,6 +127,14 @@ type ErrInputRequired struct{}
 
 func (e ErrInputRequired) Error() string {
 	return "value is required"
+}
+
+type ErrInputPattern struct {
+	Pattern *regexp.Regexp
+}
+
+func (e ErrInputPattern) Error() string {
+	return fmt.Sprintf("does not match pattern %s", e.Pattern.String())
 }
 
 type ErrInputMax struct {
@@ -171,7 +184,7 @@ func (p *Input) cmpLess(x, y string) bool {
 // Validate performs some basic checks on the value
 // of the input according to its settings.
 //
-// [Input.Required], [Input.Max], [Input.Min], [Input.MaxLength], and [Input.MinLength] are checked, in that order. Similar to the minimal
+// [Input.Required], [Input.Pattern], [Input.Max], [Input.Min], [Input.MaxLength], and [Input.MinLength] are checked, in that order. Similar to the minimal
 // checks that a browser would make for equivalent HTML. If the type is "checkbox" or "radio" only [Input.Required] is checked.
 //
 // Because it is complex to implement for whatever many types [Input.Type] might be set to, this function does not validate [Input.Step].
@@ -206,6 +219,10 @@ func (i *Input) getError() error {
 			return ErrInputRequired{}
 		}
 		return nil
+	}
+
+	if i.Pattern != nil && !i.Pattern.Match([]byte(i.Value)) {
+		return ErrInputPattern{i.Pattern}
 	}
 
 	if i.Max != "" && i.cmpLess(i.Max, i.Value) {
