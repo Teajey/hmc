@@ -10,7 +10,7 @@ import (
 
 // Map represents an arbitrary set of key-value entries. Where Name == "foo", the form submission may populate Entries with values like this `foo[x]=y&foo[a]=b&foo[stuff]=etc`.
 //
-// When Name == "", [Map.ExtractFormValue] will extract all values from the given form. Extract specific fields first to prevent them from being captured by the catch-all.
+// When Name == "", [Map.ExtractValue] will extract all values from the given form. Extract specific fields first to prevent them from being captured by the catch-all.
 type Map struct {
 	Label string `json:"label"`
 	Name  string `json:"name"`
@@ -71,10 +71,10 @@ func (e ErrMapMaxValues) Error() string {
 	return fmt.Sprintf("contains an entry with more than %d value(s)", e.MaxLength)
 }
 
-// ExtractFormValue takes all entries from form with name x[y], where x = m.Name, and y is an arbitrary key provided by the request.
+// ExtractValue takes all entries from form with name x[y], where x = m.Name, and y is an arbitrary key provided by the request.
 //
 // If m.Name == "", then all entries in form are transferred to m.Entries. Extract specific fields first to prevent them from being captured by the catch-all.
-func (m *Map) ExtractFormValue(form url.Values) {
+func (m *Map) ExtractValue(form url.Values) error {
 	if m.Entries == nil {
 		m.Entries = make(map[string][]string, len(form))
 	}
@@ -95,6 +95,20 @@ func (m *Map) ExtractFormValue(form url.Values) {
 		}
 		delete(form, k)
 		m.Entries[key] = v
+	}
+
+	return nil
+}
+
+// AppendValue copies the values of m to form.
+//
+// It is essentially the inverse of [Map.ExtractValue]
+func (m *Map) AppendValue(form url.Values) {
+	for k, vs := range m.Entries {
+		key := m.NamedKey(k)
+		for _, v := range vs {
+			form.Add(key, v)
+		}
 	}
 }
 

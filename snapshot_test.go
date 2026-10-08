@@ -41,59 +41,31 @@ type login struct {
 	Login           hmc.Link `json:"LoginLink"`
 }
 
-func (l *login) ExtractValues(form url.Values) {
-	l.Username.ExtractFormValue(form)
-	l.Password.ExtractFormValue(form)
-	l.ConfirmPassword.ExtractFormValue(form)
-	_ = l.FavouriteFood.ExtractFormValue(form)
-	l.LikesGames.ExtractFormValue(form)
-	l.LikesMovies.ExtractFormValue(form)
-	l.LikesMusic.ExtractFormValue(form)
-	l.TermsAndConds.ExtractFormValue(form)
-	l.NewsLetter.ExtractFormValue(form)
-	l.Misc.ExtractFormValue(form)
+func (f *login) controls() []hmc.Control {
+	c := []hmc.Control{
+		&f.Username,
+		&f.Password,
+		&f.ConfirmPassword,
+		&f.FavouriteFood,
+		&f.LikesMovies,
+		&f.LikesMusic,
+		&f.LikesGames,
+		&f.TermsAndConds,
+		&f.NewsLetter,
+		&f.Misc,
+	}
+	return c
 }
 
-func (l *login) Validate() {
-	err := l.Username.Validate()
-	if err != nil {
-		l.Username.Error = err.Error()
+func (f *login) ExtractValues(form url.Values) {
+	for _, c := range f.controls() {
+		_ = c.ExtractValue(form)
 	}
-	err = l.Password.Validate()
-	if err != nil {
-		l.Password.Error = err.Error()
-	}
-	err = l.ConfirmPassword.Validate()
-	if err != nil {
-		l.ConfirmPassword.Error = err.Error()
-	}
-	err = l.FavouriteFood.Validate()
-	if err != nil {
-		l.FavouriteFood.Error = err.Error()
-	}
-	err = l.LikesMovies.Validate()
-	if err != nil {
-		l.LikesMovies.Error = err.Error()
-	}
-	err = l.LikesMusic.Validate()
-	if err != nil {
-		l.LikesMusic.Error = err.Error()
-	}
-	err = l.LikesGames.Validate()
-	if err != nil {
-		l.LikesGames.Error = err.Error()
-	}
-	err = l.TermsAndConds.Validate()
-	if err != nil {
-		l.TermsAndConds.Error = err.Error()
-	}
-	err = l.NewsLetter.Validate()
-	if err != nil {
-		l.NewsLetter.Error = err.Error()
-	}
-	err = l.Misc.Validate()
-	if err != nil {
-		l.Misc.Error = err.Error()
+}
+
+func (f *login) Validate() {
+	for _, c := range f.controls() {
+		_ = c.Validate()
 	}
 }
 
@@ -301,7 +273,7 @@ func TestSnapshotSelect(t *testing.T) {
 		"mugs":  {"Wumbo"},
 		"other": {"1"},
 	}
-	err := input.ExtractFormValue(form)
+	err := input.ExtractValue(form)
 	if err != nil {
 		input.Error = err.Error()
 	}
@@ -348,7 +320,7 @@ func TestSnapshotMap(t *testing.T) {
 		"data[drinks]": {"water", "tea"},
 	}
 
-	input.ExtractFormValue(form)
+	input.ExtractValue(form)
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "map.gotmpl", input)
@@ -368,7 +340,7 @@ func TestSnapshotBucket(t *testing.T) {
 		"data[drinks]": {"water", "tea"},
 	}
 
-	input.ExtractFormValue(form)
+	input.ExtractValue(form)
 
 	buf := bytes.NewBuffer([]byte{})
 	err := tm.ExecuteTemplate(buf, "map.gotmpl", input)

@@ -2,6 +2,7 @@ package assert
 
 import (
 	"errors"
+	"maps"
 	"slices"
 	"testing"
 )
@@ -59,5 +60,12 @@ func SlicesEq[S ~[]E, E comparable](t *testing.T, context string, expected, actu
 	t.Helper()
 	if !slices.Equal(expected, actual) {
 		t.Errorf("%s: %#v != %#v", context, expected, actual)
+	}
+}
+
+func MapsEqFunc[M ~map[K]V, K comparable, V any](t *testing.T, context string, expected M, actual M, eq func(V, V) bool) {
+	t.Helper()
+	if !maps.EqualFunc(expected, actual, eq) {
+		t.Errorf("%s: maps not equal:\nwant = %#v\nhave = %#v", context, expected, actual)
 	}
 }
