@@ -59,7 +59,7 @@ func TestSelectExtract(t *testing.T) {
 		"myval": {"two", "three"},
 	}
 
-	if err := s.ExtractFormValue(form); err != nil {
+	if err := s.ExtractValue(form); err != nil {
 		s.Error = err.Error()
 	}
 
@@ -80,7 +80,7 @@ func TestSelectExtractEmpty(t *testing.T) {
 
 	form := url.Values{}
 
-	if err := s.ExtractFormValue(form); err != nil {
+	if err := s.ExtractValue(form); err != nil {
 		s.Error = err.Error()
 	}
 
@@ -103,7 +103,7 @@ func TestSelectMultipleExtract(t *testing.T) {
 		"myval": {"two", "three"},
 	}
 
-	if err := s.ExtractFormValue(form); err != nil {
+	if err := s.ExtractValue(form); err != nil {
 		s.Error = err.Error()
 	}
 
@@ -127,7 +127,7 @@ func TestSelectRequired(t *testing.T) {
 		"mynotval": {"two", "three"},
 	}
 
-	err := s.ExtractFormValue(form)
+	err := s.ExtractValue(form)
 	if err != nil {
 		s.Error = err.Error()
 	}

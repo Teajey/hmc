@@ -276,12 +276,12 @@ func setOrDelete(form url.Values, key string, vals []string) {
 	form[key] = vals
 }
 
-// ExtractFormValue sets i.Value to the first value found at form[i.Name],
+// ExtractValue sets i.Value to the first value found at form[i.Name],
 // removing it from form. For checkboxes and radios it instead sets i.Checked
 // and removes the matching value.
-func (i *Input) ExtractFormValue(form url.Values) {
+func (i *Input) ExtractValue(form url.Values) error {
 	if i.Disabled {
-		return
+		return nil
 	}
 	switch i.Type {
 	case "checkbox", "radio":
@@ -289,6 +289,29 @@ func (i *Input) ExtractFormValue(form url.Values) {
 	default:
 		if v, ok := popFirst(form, i.Name); ok {
 			i.Value = v
+		}
+	}
+	return nil
+}
+
+// AppendValue copies the value of s to form.
+//
+// If s.Disabled, this is a noop.
+//
+// If s.Type is "checkbox" or "radio" and i.Checked, value is copied regardless of it's truthiness;
+// else it is only copied if i.Value is not empty.
+func (i *Input) AppendValue(form url.Values) {
+	if i.Disabled {
+		return
+	}
+	switch i.Type {
+	case "checkbox", "radio":
+		if i.Checked {
+			form.Add(i.Name, i.Value)
+		}
+	default:
+		if i.Value != "" {
+			form.Add(i.Name, i.Value)
 		}
 	}
 }

@@ -19,7 +19,7 @@ func TestMapExtractMax(t *testing.T) {
 		"foo[baz]": {"three"},
 	}
 
-	s.ExtractFormValue(form)
+	s.ExtractValue(form)
 	if err := s.Validate(); err != nil {
 		s.Error = err.Error()
 	}
@@ -38,7 +38,7 @@ func TestMapExtractMaxLength(t *testing.T) {
 		"foo[bar]": {"two", "three"},
 	}
 
-	s.ExtractFormValue(form)
+	s.ExtractValue(form)
 	if err := s.Validate(); err != nil {
 		s.Error = err.Error()
 	}
@@ -57,7 +57,7 @@ func TestMapExtractMaxKeysLength(t *testing.T) {
 		"foo[barbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbazbarbaz]": {"two"},
 	}
 
-	s.ExtractFormValue(form)
+	s.ExtractValue(form)
 	if err := s.Validate(); err != nil {
 		s.Error = err.Error()
 	}

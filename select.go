@@ -116,29 +116,29 @@ func (s Select) Value() string {
 // It currently only checks p.Required.
 //
 // An error will be returned, and p.Error set, if p.Value() == "" when p.Required == true
-func (p *Select) Validate() error {
-	err := p.getError()
+func (s *Select) Validate() error {
+	err := s.getError()
 	if err != nil {
-		p.Error = err.Error()
+		s.Error = err.Error()
 	}
 	return err
 }
 
 // getError returns the same error that p.Validate would without setting p.Error
-func (p *Select) getError() error {
-	if p.Required && p.Value() == "" {
+func (s *Select) getError() error {
+	if s.Required && s.Value() == "" {
 		return ErrInputRequired{}
 	}
 
 	return nil
 }
 
-// ExtractFormValue behaves similarly to [Input.ExtractFormValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
+// ExtractValue behaves similarly to [Input.ExtractValue]. If s.Multiple is set, all values are taken; if not, the first value is taken.
 //
 // An error is returned if a value is extracted that is not listed
 // in s.Options; but it is safe to ignore this error if unlisted
 // selections are allowed. See [Select.SetValues]
-func (s *Select) ExtractFormValue(form url.Values) (err error) {
+func (s *Select) ExtractValue(form url.Values) (err error) {
 	if s.Disabled {
 		return
 	}
@@ -160,26 +160,48 @@ func (s *Select) ExtractFormValue(form url.Values) (err error) {
 	return
 }
 
-func (i Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
+// AppendValue copies the values of s to form
+//
+// If s.Disabled, this is a noop.
+//
+// If s.Multiple, all values are copied; else, only the first value.
+func (s *Select) AppendValue(form url.Values) {
+	if s.Disabled {
+		return
+	}
+	if s.Multiple {
+		for v := range s.Values() {
+			if v != "" {
+				form.Add(s.Name, v)
+			}
+		}
+	} else {
+		if v := s.Value(); v != "" {
+			form.Add(s.Name, v)
+		}
+	}
+}
+
+func (s Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 	label.Name.Local = "c:Label"
 
 	if err := e.EncodeToken(label); err != nil {
 		return fmt.Errorf("encoding label start: %w", err)
 	}
-	if err := e.EncodeToken(xml.CharData(i.Label)); err != nil {
+	if err := e.EncodeToken(xml.CharData(s.Label)); err != nil {
 		return fmt.Errorf("encoding label text: %w", err)
 	}
 
 	sel := xml.StartElement{Name: xml.Name{Local: "c:Select"}}
 
-	if i.Disabled {
-		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
+	if s.Disabled {
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: s.Name})
 	} else {
-		if i.Multiple {
+		if s.Multiple {
 			sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "multiple"}, Value: "true"})
 		}
-		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: i.Name})
-		if i.Required {
+		sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "name"}, Value: s.Name})
+		if s.Required {
 			sel.Attr = append(sel.Attr, xml.Attr{Name: xml.Name{Local: "required"}, Value: "true"})
 		}
 	}
@@ -188,14 +210,14 @@ func (i Select) MarshalXML(e *xml.Encoder, label xml.StartElement) error {
 		return nil
 	}
 
-	if i.Error != "" {
+	if s.Error != "" {
 		errorStart := xml.StartElement{Name: xml.Name{Local: "c:Error"}}
-		if err := e.EncodeElement(i.Error, errorStart); err != nil {
+		if err := e.EncodeElement(s.Error, errorStart); err != nil {
 			return fmt.Errorf("encoding error: %w", err)
 		}
 	}
 
-	for _, o := range i.Options {
+	for _, o := range s.Options {
 		if err := e.EncodeElement(o, sel); err != nil {
 			return err
 		}
